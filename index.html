@@ -3,7 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>MORA X – منشئ مواقع بالذكاء الاصطناعي</title>
+<title>MORA X – منشئ مواقع بالذكاء الاصطناعي مجانًا بالعربي</title>
+<meta name="description" content="اكتب فكرة موقعك واحصل على موقع عربي احترافي متجاوب في ثواني بالذكاء الاصطناعي، ثم انشره مجانًا برابط https. منصة MORA X.">
+<meta name="keywords" content="منشئ مواقع, إنشاء موقع بالذكاء الاصطناعي, موقع مجاني, تصميم مواقع, MORA X">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#ffffff">
+<link rel="canonical" href="https://YOUR-DOMAIN/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ar_AR">
+<meta property="og:title" content="MORA X – منشئ مواقع بالذكاء الاصطناعي">
+<meta property="og:description" content="اكتب فكرتك واحصل على موقع عربي كامل في ثواني.">
+<meta property="og:url" content="https://YOUR-DOMAIN/">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"MORA X","url":"https://YOUR-DOMAIN/","applicationCategory":"DesignApplication","inLanguage":"ar","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"MORA X"}}</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23000'/%3E%3Cpath d='M6 24V8h4l6 8 6-8h4v16h-4V15l-6 8-6-8v9z' fill='%23fff'/%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
@@ -144,6 +156,7 @@ iframe.m{width:390px;max-width:100%;display:block;margin:0 auto}
 </footer>
 
 <script>
+var API_URL='';/* ضع هنا رابط Cloudflare Worker بعد نشره */
 var ICONS={bolt:'<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',phone:'<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/>',globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',lock:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',code:'<path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/>',cash:'<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/>'};
 var FEAT=[['bolt','سريع','موقع كامل في أقل من دقيقة.'],['phone','للموبايل أولًا','كل موقع بيناسب الموبايل والتابلت والكمبيوتر.'],['globe','بالعربي','تصميم من اليمين لليسار وخط عربي واضح.'],['lock','https آمن','الاستضافات المجانية بتديك رابط https حقيقي.'],['code','كود نظيف','ملف HTML بسيط تملكه بالكامل.'],['cash','مجاني 100%','من غير اشتراك ولا تكاليف مخفية.']];
 var CHIPS=['كافيه','معرض أعمال','متجر أونلاين','جيم','مطعم'];
@@ -152,19 +165,30 @@ CHIPS.forEach(function(c){var b=document.createElement('button');b.textContent=c
 $('fgrid').innerHTML=FEAT.map(function(f){return '<div class="card"><div class="ic"><svg class="i" viewBox="0 0 24 24">'+ICONS[f[0]]+'</svg></div><h3>'+f[1]+'</h3><p>'+f[2]+'</p></div>'}).join('');
 var CREDIT='<footer style="text-align:center;padding:26px 16px;border-top:1px solid #e6e6e6;font:700 14px/1.9 Tajawal,system-ui,sans-serif;background:#fff;color:#000"><div>&copy; 2027 جميع الحقوق محفوظة.</div><div>تم إنشاؤه بواسطة <b style="color:#f00">MORA X</b></div></footer>';
 document.addEventListener('pointerdown',function(e){var b=e.target.closest('button');if(!b||b.disabled)return;var c=b.getBoundingClientRect(),d=Math.max(c.width,c.height)*2,i=document.createElement('span');i.className='rip';i.style.cssText='width:'+d+'px;height:'+d+'px;left:'+(e.clientX-c.left-d/2)+'px;top:'+(e.clientY-c.top-d/2)+'px';b.appendChild(i);setTimeout(function(){i.remove()},650)});
+async function ai(prompt){
+  var ctl=new AbortController(),tm=setTimeout(function(){ctl.abort()},90000),r,j;
+  try{
+    if(API_URL){
+      r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:prompt}),signal:ctl.signal});
+      j=await r.json();if(!r.ok||!j.text)throw 0;return j.text;
+    }
+    r=await fetch('https://text.pollinations.ai/openai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'openai',messages:[{role:'user',content:prompt}]}),signal:ctl.signal});
+    if(!r.ok)throw 0;j=await r.json();
+    var t=j.choices&&j.choices[0]&&j.choices[0].message&&j.choices[0].message.content;if(!t)throw 0;return t;
+  }finally{clearTimeout(tm)}
+}
 var prev='',busy=false;
 function clean(t){t=t.replace(/```html\s*/ig,'').replace(/```/g,'').trim();var i=t.search(/<!DOCTYPE/i);if(i>0)t=t.slice(i);if(!/MORA X/i.test(t)){t=/<\/body>/i.test(t)?t.replace(/<\/body>/i,CREDIT+'</body>'):t+CREDIT}return t}
 async function run(prompt,msg){
   if(busy)return;busy=true;var st=$('status');st.textContent=msg;$('go').disabled=true;$('rf').disabled=true;
   try{
-    var sample=await window.claude.use('sample');if(!sample)throw 0;
-    var out=await sample(prompt,{cache:false,modelTier:'quick',onText:function(o){st.textContent=msg+' '+Math.round(o.text.length/100)/10+'k'}});
+    var out={text:await ai(prompt)};
     if(html)prev=html;html=clean(out.text);
     $('frame').srcdoc=html;$('prev').style.display='block';$('after').style.display='block';
     $('dl').style.display=$('pub').style.display='inline-flex';$('undo').style.display=prev?'inline-flex':'none';
     st.textContent='تم. شوف المعاينة تحت.';
     if(!$('prev').dataset.s){$('prev').dataset.s=1;$('prev').scrollIntoView({behavior:'smooth'})}
-  }catch(e){st.textContent='حصل خطأ. جرّب تاني.'}
+  }catch(e){st.textContent='الخدمة مشغولة أو مش متاحة دلوقتي. جرّب تاني بعد شوية.'}
   busy=false;$('go').disabled=false;$('rf').disabled=false;
 }
 var RULES='القواعد: أخرج مستند HTML كامل فقط يبدأ بـ <!DOCTYPE html> بدون أي شرح أو markdown. العربية فقط، dir="rtl" lang="ar". ممنوع الإيموجي، استخدم أيقونات SVG مضمنة. CSS وJS مضمنان، بدون صور أو سكربتات خارجية. الخط: Google Font "Tajawal". كل الأزرار لها تأثير ضغط سلس (تصغير بسيط transform:scale(.95) مع ripple وانتقالات transition ناعمة). الخلفية بيضاء. آخر عنصر في الفوتر: © 2027 جميع الحقوق محفوظة. تم إنشاؤه بواسطة MORA X.';
@@ -181,9 +205,7 @@ $('dsk').onclick=function(){$('frame').className='';$('dsk').className='on';$('m
 $('mob').onclick=function(){$('frame').className='m';$('mob').className='on';$('dsk').className=''};
 $('cp').onclick=async function(){try{await navigator.clipboard.writeText(html);$('cp').textContent='تم النسخ'}catch(e){$('cp').textContent='تعذر النسخ'}setTimeout(function(){$('cp').textContent='نسخ الكود'},1800)};
 $('tweak').onkeydown=function(e){if(e.key==='Enter')$('rf').click()};
-$('dl').onclick=async function(){
-  try{var d=await window.claude.use('downloads');if(d)await d.save({filename:'index.html',data:html})}catch(e){}
-};
+$('dl').onclick=function(){var u=URL.createObjectURL(new Blob([html],{type:'text/html'})),a=document.createElement('a');a.href=u;a.download='index.html';a.click();setTimeout(function(){URL.revokeObjectURL(u)},1000)};
 $('pub').onclick=function(){window.open('https://app.netlify.com/drop','_blank','noopener')};
 </script>
 </body>
