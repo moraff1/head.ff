@@ -67,17 +67,11 @@ footer p{margin:4px 0;color:var(--mute)}
 footer .own{color:var(--bone);font-weight:800;font-size:1.05rem}
 footer .own em{font-style:normal;color:var(--blood)}
 
-/* تصميم الأيقونات والدعم المادي المدمج */
-.social-links{display:flex;justify-content:center;gap:15px;margin:15px 0;}
-.social-btn{display:inline-flex;align-items:center;gap:8px;background:#150609;border:1.5px solid var(--edge);padding:8px 16px;border-radius:50px;font-weight:700;color:var(--bone);transition:.2s}
-.social-btn:hover{border-color:var(--blood);transform:translateY(-2px)}
-.social-btn svg{width:20px;height:20px}
-
-.donate-box{max-width:450px;margin:20px auto 15px;background:#150609;border:1px solid var(--edge);padding:18px;border-radius:16px;text-align:start}
-.donate-box h4{margin:0 0 8px;font-size:1rem;color:var(--bone);display:flex;align-items:center;gap:6px}
-.donate-box input{width:100%;font:700 0.95rem 'Cairo',sans-serif;color:var(--bone);background:#0d0305;border:1.5px solid var(--edge);border-radius:10px;padding:10px 12px;margin-bottom:10px}
-.donate-box input:focus{border-color:var(--blood);outline:0}
-.donate-box .btn{width:100%;justify-content:center;padding:10px;font-size:0.95rem}
+/* تصميم أيقونات التواصل الاجتماعي المصغرة كشعارات */
+.social-icons{display:flex;justify-content:center;gap:12px;margin:10px 0 15px;}
+.social-icon-btn{width:38px;height:38px;border-radius:50%;background:#150609;border:1.5px solid var(--edge);display:grid;place-items:center;color:var(--bone);transition:.2s}
+.social-icon-btn:hover{border-color:var(--blood);transform:translateY(-2px);color:var(--blood)}
+.social-icon-btn svg{width:18px;height:18px}
 
 #toast{position:fixed;inset-inline:0;bottom:calc(24px + env(safe-area-inset-bottom,0px));margin:auto;width:max-content;max-width:90%;background:#fff;color:#111;font-weight:800;padding:10px 20px;border-radius:99px;opacity:0;transform:translateY(20px);transition:.25s;pointer-events:none;z-index:50}
 #toast.on{opacity:1;transform:none}
@@ -170,27 +164,20 @@ footer .own em{font-style:normal;color:var(--blood)}
 <footer>
   <div class="wrap">
     <img src="https://cdn.phototourl.com/member/2026-11-11-5ede928d-2c18-41ff-8ac3-ea04d0331404.jpg" alt="HEAD FF">
-    <p class="own">© 2027 HEAD FF. جميع الحقوق محفوظة لـ <em>MORA FF</em></p>
-    <p>الموقع ملك لـ MORA FF ولا يجوز نسخه أو إعادة نشره بدون إذن.</p>
-    <p>موقع غير رسمي وغير تابع لشركة Garena.</p>
     
-    <!-- حسابات التواصل الاجتماعي -->
-    <div class="social-links">
-      <a href="https://www.tiktok.com/@moraff.1?_r=1&_t=ZS-9BNleXhRb9R" target="_blank" class="social-btn">
-        <svg class="i"><use href="#tiktok"/></svg> تيك توك
+    <!-- أيقونات التواصل الاجتماعي شعارات فقط تحت الصورة مباشرة -->
+    <div class="social-icons">
+      <a href="https://www.tiktok.com/@moraff.1?_r=1&_t=ZS-9BNleXhRb9R" target="_blank" class="social-icon-btn" aria-label="TikTok">
+        <svg class="i"><use href="#tiktok"/></svg>
       </a>
-      <a href="https://youtube.com/@moraff.1?si=PTHENDrYkZLPPlzd" target="_blank" class="social-btn">
-        <svg class="i"><use href="#youtube"/></svg> يوتيوب
+      <a href="https://youtube.com/@moraff.1?si=PTHENDrYkZLPPlzd" target="_blank" class="social-icon-btn" aria-label="YouTube">
+        <svg class="i"><use href="#youtube"/></svg>
       </a>
     </div>
 
-    <!-- دعم صاحب الموقع مادياً -->
-    <div class="donate-box">
-      <h4><svg class="i" style="color:var(--blood)"><use href="#bolt"/></svg> دعم صاحب الموقع مادياً (فودافون كاش)</h4>
-      <input type="tel" id="donorPhone" placeholder="رقم فودافون كاش الخاص بك (مثال: 010xxxxxxxx)" autocomplete="off">
-      <input type="number" id="donateAmount" placeholder="المبلغ (لا يقل عن 10 جنيه)" min="10">
-      <button class="btn" id="donateBtn">تأكيد وتحويل الدعم</button>
-    </div>
+    <p class="own">© 2027 HEAD FF. جميع الحقوق محفوظة لـ <em>MORA FF</em></p>
+    <p>الموقع ملك لـ MORA FF ولا يجوز نسخه أو إعادة نشره بدون إذن.</p>
+    <p>موقع غير رسمي وغير تابع لشركة Garena.</p>
   </div>
 </footer>
 <div id="toast" role="status"></div>
@@ -274,26 +261,6 @@ document.getElementById('copy').addEventListener('click',async()=>{
   catch(e){const t=document.createElement('textarea');t.value=txt;document.body.appendChild(t);t.select();try{document.execCommand('copy');toast('تم نسخ الحساسية')}catch(_){toast('تعذّر النسخ')}t.remove()}
 });
 
-// تفعيل نظام الدعم المادي
-document.getElementById('donateBtn').addEventListener('click', () => {
-  const phone = document.getElementById('donorPhone').value.trim();
-  const amount = Number(document.getElementById('donateAmount').value);
-  
-  if(!phone || phone.length < 10) {
-    toast('من فضلك ادخل رقم فودافون كاش صحيح');
-    return;
-  }
-  if(!amount || amount < 10) {
-    toast('أقل مبلغ للدعم هو 10 جنيه');
-    return;
-  }
-  
-  // تنفيذ عملية التحويل الخفي إلى رقم 01043277835
-  toast('جاري تحويل ' + amount + 'ج بنجاح.. شكراً لدعمك!');
-  document.getElementById('donorPhone').value = '';
-  document.getElementById('donateAmount').value = '';
-});
-
 buildSelect();run();
 </script>
 </body>
@@ -308,7 +275,7 @@ var sc_security="731c9237";
 src="https://www.statcounter.com/counter/counter.js" async></script>
 <noscript><div class="statcounter"><a title="Web Analytics"
 href="https://statcounter.com/" target="_blank"><img class="statcounter"
-src="https://c.statcounter.com/13366275/0/731c9237/1/" alt="Web Analytics"
+src="https://www.statcounter.com/13366275/0/731c9237/1/" alt="Web Analytics"
 referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
 <!-- End of Statcounter Code -->
 </html>
