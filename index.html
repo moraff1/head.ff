@@ -98,6 +98,10 @@ footer .own em{font-style:normal;color:var(--blood)}
 .res p{margin:0;color:var(--mute);max-width:44ch}
 .res .sel-info{font-weight:800;color:var(--bone)}
 .btn.wa{background:linear-gradient(135deg,#25d366,#128c7e);box-shadow:0 8px 28px rgba(37,211,102,.3)}
+.pay{display:inline-flex;align-items:center;gap:8px;background:#0d0305;border:1.5px dashed var(--blood);border-radius:12px;padding:10px 16px;font-weight:800;color:var(--bone)}
+.pay svg{color:var(--blood)}
+.vid{position:relative;width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 </style>
 </head>
 <body>
@@ -122,7 +126,7 @@ footer .own em{font-style:normal;color:var(--blood)}
 
 <header><div class="wrap nav">
   <a class="brand" href="#top"><img src="https://cdn.phototourl.com/member/2026-11-11-5ede928d-2c18-41ff-8ac3-ea04d0331404.jpg" alt="HEAD FF"> HEAD FF</a>
-  <nav><a href="#gen">مولّد الحساسية</a><a href="#store">متجر Mora Store</a><a href="#tips">نصائح</a></nav>
+  <nav><a href="#video">شرح الموقع</a><a href="#gen">مولّد الحساسية</a><a href="#store">متجر Mora Store</a><a href="#tips">نصائح</a></nav>
 </div></header>
 
 <main id="top" class="wrap">
@@ -135,6 +139,14 @@ footer .own em{font-style:normal;color:var(--blood)}
     </div>
     <div class="logo-box"><img src="https://cdn.phototourl.com/member/2026-11-11-5ede928d-2c18-41ff-8ac3-ea04d0331404.jpg" alt="HEAD FF"></div>
   </div>
+
+  <section id="video">
+    <h2><svg class="i"><use href="#bolt"/></svg> شرح الموقع</h2>
+    <p class="sub">شاهد الفيديوهات دي لتعرف تستخدم الموقع صح.</p>
+    <div class="card">
+      <div class="vid"><iframe src="https://www.youtube.com/embed/videoseries?list=PLb26AwiPoLGIDrbvmqj84fzG7Eeqpik4w" title="شرح موقع HEAD FF" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+    </div>
+  </section>
 
   <section id="gen">
     <h2><svg class="i"><use href="#sliders"/></svg> مولّد الحساسية</h2>
@@ -165,14 +177,15 @@ footer .own em{font-style:normal;color:var(--blood)}
 
   <section id="store">
     <h2><svg class="i"><use href="#cart"/></svg> متجر Mora Store</h2>
-    <p class="sub">أسعار الجواهر المميزة. اختار الباقة اللي تناسبك.</p>
+    <p class="sub">أسعار الجواهر المميزة. اختار الباقة اللي تناسبك. الدفع عن طريق فودافون كاش.</p>
     <div class="shop" id="shop"></div>
     <div class="card shopbox" id="shopbox">
       <div class="loader" id="sloader"><div class="spin"></div><b id="slmsg">جاري التحميل</b><div class="lbar"><i></i></div></div>
       <div class="res" id="sres">
         <h3>للشحن تواصل عبر الواتساب</h3>
         <p class="sel-info" id="sinfo"></p>
-        <p>اضغط على الزر وهيفتحلك شات واتساب مع المتجر مباشرة.</p>
+        <div class="pay"><svg class="i"><use href="#phone"/></svg> الدفع عن طريق فودافون كاش</div>
+        <p>اضغط على الزر وهيفتحلك شات واتساب مع المتجر مباشرة، وهيوصلك تفاصيل الدفع هناك.</p>
         <button class="btn wa" id="wabtn" type="button"><svg class="i"><use href="#chat"/></svg> تواصل واتساب</button>
       </div>
       <p class="note" id="shint" style="justify-content:center;margin:0"><svg class="i"><use href="#info"/></svg><span>اضغط على أي باقة لإتمام الطلب.</span></p>
@@ -312,7 +325,7 @@ buildSelect();run();
   });
   document.getElementById('wabtn').addEventListener('click',()=>{
     const num=['20','1043','277835'].join('');
-    const msg=sel>=0?'مرحبا Mora Store، أريد شحن '+fm(PK[sel][0])+' جوهرة بسعر '+fm(PK[sel][1])+' ج':'مرحبا Mora Store، أريد شحن جواهر';
+    const msg=sel>=0?'مرحبا Mora Store، أريد شحن '+fm(PK[sel][0])+' جوهرة بسعر '+fm(PK[sel][1])+' ج (الدفع عن طريق فودافون كاش)':'مرحبا Mora Store، أريد شحن جواهر (الدفع عن طريق فودافون كاش)';
     window.open('https://wa.me/'+num+'?text='+encodeURIComponent(msg),'_blank','noopener');
   });
 })();
