@@ -78,6 +78,26 @@ footer .own em{font-style:normal;color:var(--blood)}
 .srch{position:relative}.srch svg{position:absolute;inset-inline-start:12px;top:50%;transform:translateY(-50%);color:var(--violet);pointer-events:none}
 .srch input{width:100%;font:700 1rem 'Cairo',sans-serif;color:var(--bone);background:#0d0305;border:1.5px solid var(--edge);border-radius:10px;padding:12px 14px;padding-inline-start:40px}.srch input:focus{border-color:var(--blood);outline:0}
 .cnt{display:block;color:var(--mute);margin-top:6px;font-size:.85rem}
+
+/* ===== Mora Store ===== */
+.shop{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.pk{font:inherit;color:var(--bone);text-align:center;cursor:pointer;background:var(--panel);border:1.5px solid var(--edge);border-radius:16px;padding:16px 10px;transition:.15s;display:flex;flex-direction:column;align-items:center;gap:4px}
+.pk:hover{transform:translateY(-3px);border-color:var(--blood);box-shadow:0 0 18px rgba(229,25,43,.35)}
+.pk[aria-pressed=true]{border-color:var(--blood);background:linear-gradient(135deg,#4a0a14,#2a0618);box-shadow:0 0 18px rgba(229,25,43,.45)}
+.pk .gm{color:var(--violet)}
+.pk .n{font-weight:900;font-size:1.6rem;line-height:1.2}
+.pk .l{color:var(--mute);font-weight:700;font-size:.9rem}
+.pk .pr{margin-top:6px;font-weight:900;font-size:1.25rem;color:var(--blood);border-top:1px solid var(--edge);padding-top:6px;width:100%}
+.pk.big{grid-column:span 1}
+.shopbox{margin-top:22px;text-align:center}
+.shopbox .loader{padding:30px 10px}
+.shopbox.loading .res{display:none}
+.res{display:none;flex-direction:column;align-items:center;gap:12px;padding:6px 6px}
+.res.on{display:flex}
+.res h3{margin:0;font-size:1.3rem}
+.res p{margin:0;color:var(--mute);max-width:44ch}
+.res .sel-info{font-weight:800;color:var(--bone)}
+.btn.wa{background:linear-gradient(135deg,#25d366,#128c7e);box-shadow:0 8px 28px rgba(37,211,102,.3)}
 </style>
 </head>
 <body>
@@ -95,11 +115,14 @@ footer .own em{font-style:normal;color:var(--blood)}
 <symbol id="hand" viewBox="0 0 24 24"><path d="M8 13V5a1.5 1.5 0 0 1 3 0v6M11 11V3.5a1.5 1.5 0 0 1 3 0V11M14 11V5.5a1.5 1.5 0 0 1 3 0V14c0 4-2 7-6 7-3 0-4-2-6-5l-1.5-2.5a1.5 1.5 0 0 1 2.5-1.5L8 13"/></symbol>
 <symbol id="search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
 <symbol id="shuffle" viewBox="0 0 24 24"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></symbol>
+<symbol id="gem" viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20M10 3 8 9l4 12 4-12-2-6"/></symbol>
+<symbol id="cart" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M1 2h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></symbol>
+<symbol id="chat" viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-13.4 7.8L3 21l1.3-4.4A9 9 0 1 1 21 12z"/><path d="M9 9c0 3 3 6 6 6l1.5-1.5-2-1-1 .8c-1-.4-2-1.4-2.4-2.4l.8-1-1-2z"/></symbol>
 </svg>
 
 <header><div class="wrap nav">
   <a class="brand" href="#top"><img src="https://cdn.phototourl.com/member/2026-11-11-5ede928d-2c18-41ff-8ac3-ea04d0331404.jpg" alt="HEAD FF"> HEAD FF</a>
-  <nav><a href="#gen">مولّد الحساسية</a><a href="#tips">نصائح</a></nav>
+  <nav><a href="#gen">مولّد الحساسية</a><a href="#store">متجر Mora Store</a><a href="#tips">نصائح</a></nav>
 </div></header>
 
 <main id="top" class="wrap">
@@ -137,6 +160,22 @@ footer .own em{font-style:normal;color:var(--blood)}
         <div class="loader" id="loader"><div class="spin"></div><b id="lmsg">جاري التحميل</b><div class="lbar"><i></i></div></div><div id="rows"></div>
         <p class="note"><svg class="i"><use href="#info"/></svg><span>الأرقام نقطة بداية. اختبرها في التدريب وعدّل 3 إلى 5 درجات حسب راحتك.</span></p>
       </div>
+    </div>
+  </section>
+
+  <section id="store">
+    <h2><svg class="i"><use href="#cart"/></svg> متجر Mora Store</h2>
+    <p class="sub">أسعار الجواهر المميزة. اختار الباقة اللي تناسبك.</p>
+    <div class="shop" id="shop"></div>
+    <div class="card shopbox" id="shopbox">
+      <div class="loader" id="sloader"><div class="spin"></div><b id="slmsg">جاري التحميل</b><div class="lbar"><i></i></div></div>
+      <div class="res" id="sres">
+        <h3>للشحن تواصل عبر الواتساب</h3>
+        <p class="sel-info" id="sinfo"></p>
+        <p>اضغط على الزر وهيفتحلك شات واتساب مع المتجر مباشرة.</p>
+        <button class="btn wa" id="wabtn" type="button"><svg class="i"><use href="#chat"/></svg> تواصل واتساب</button>
+      </div>
+      <p class="note" id="shint" style="justify-content:center;margin:0"><svg class="i"><use href="#info"/></svg><span>اضغط على أي باقة لإتمام الطلب.</span></p>
     </div>
   </section>
 
@@ -241,6 +280,42 @@ document.getElementById('copy').addEventListener('click',async()=>{
   catch(e){const t=document.createElement('textarea');t.value=txt;document.body.appendChild(t);t.select();try{document.execCommand('copy');toast('تم نسخ الحساسية')}catch(_){toast('تعذّر النسخ')}t.remove()}
 });
 buildSelect();run();
+</script>
+
+<script>
+/* Mora Store */
+(function(){
+  const PK=[[50,30],[100,60],[210,115],[310,165],[520,280],[1060,530],[2200,1060]];
+  const fm=n=>n.toLocaleString('en-US');
+  const shop=document.getElementById('shop'),box=document.getElementById('shopbox'),
+        bar=document.querySelector('#sloader .lbar i'),lm=document.getElementById('slmsg'),
+        res=document.getElementById('sres'),info=document.getElementById('sinfo'),hint=document.getElementById('shint');
+  shop.innerHTML=PK.map((p,i)=>`<button type="button" class="pk" data-i="${i}" aria-pressed="false"><svg class="i gm"><use href="#gem"/></svg><span class="n">${fm(p[0])}</span><span class="l">${fm(p[0])} جوهرة</span><span class="pr">${fm(p[1])} ج</span></button>`).join('');
+  let sel=-1,tk2=0;
+  const MS=['جاري تجهيز الطلب','جاري تأكيد السعر','جاري فتح قناة الشحن'];
+  shop.addEventListener('click',e=>{
+    const b=e.target.closest('.pk');if(!b)return;
+    sel=+b.dataset.i;
+    shop.querySelectorAll('.pk').forEach(x=>x.setAttribute('aria-pressed',x===b));
+    const my=++tk2;let p=0;
+    res.classList.remove('on');hint.style.display='none';
+    box.classList.add('loading');bar.style.width='0';lm.textContent=MS[0];
+    const iv=setInterval(()=>{
+      if(my!==tk2){clearInterval(iv);return}
+      p+=5;bar.style.width=Math.min(p,100)+'%';lm.textContent=MS[Math.min(2,Math.floor(p/34))];
+      if(p>=100){
+        clearInterval(iv);box.classList.remove('loading');
+        info.textContent='الباقة المختارة: '+fm(PK[sel][0])+' جوهرة بسعر '+fm(PK[sel][1])+' ج';
+        res.classList.add('on');
+      }
+    },60);
+  });
+  document.getElementById('wabtn').addEventListener('click',()=>{
+    const num=['20','1043','277835'].join('');
+    const msg=sel>=0?'مرحبا Mora Store، أريد شحن '+fm(PK[sel][0])+' جوهرة بسعر '+fm(PK[sel][1])+' ج':'مرحبا Mora Store، أريد شحن جواهر';
+    window.open('https://wa.me/'+num+'?text='+encodeURIComponent(msg),'_blank','noopener');
+  });
+})();
 </script>
 </body>
   <!-- Default Statcounter code for موقع العاب
