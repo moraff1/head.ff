@@ -4,11 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>HEAD FF | حساسيات فري فاير</title>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1244676963759461" crossorigin="anonymous"></script>
-
-<!-- ===== Adsterra - Social Bar فقط ===== -->
-<script data-cfasync="false" src="https://abscloud.org/1/5e503fe050ccff84f40ef4d8dcd4ed48"></script>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800;900&display=swap" rel="stylesheet">
@@ -76,9 +71,12 @@ footer .own em{font-style:normal;color:var(--blood)}
 .lbar{width:min(260px,80%);height:8px;background:#26080d;border-radius:99px;overflow:hidden}.lbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blood),var(--violet))}
 .btn:disabled{opacity:.5;cursor:wait;transform:none}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
 .srch{position:relative}.srch svg{position:absolute;inset-inline-start:12px;top:50%;transform:translateY(-50%);color:var(--violet);pointer-events:none}
 .srch input{width:100%;font:700 1rem 'Cairo',sans-serif;color:var(--bone);background:#0d0305;border:1.5px solid var(--edge);border-radius:10px;padding:12px 14px;padding-inline-start:40px}.srch input:focus{border-color:var(--blood);outline:0}
 .cnt{display:block;color:var(--mute);margin-top:6px;font-size:.85rem}
+
+/* ===== Mora Store ===== */
 .shop{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
 .pk{font:inherit;color:var(--bone);text-align:center;cursor:pointer;background:var(--panel);border:1.5px solid var(--edge);border-radius:16px;padding:16px 10px;transition:.15s;display:flex;flex-direction:column;align-items:center;gap:4px}
 .pk:hover{transform:translateY(-3px);border-color:var(--blood);box-shadow:0 0 18px rgba(229,25,43,.35)}
@@ -101,8 +99,40 @@ footer .own em{font-style:normal;color:var(--blood)}
 .pay svg{color:var(--blood)}
 .vid{position:relative;width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#000}
 .vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.ad-box{display:flex;justify-content:center;align-items:center;margin:20px auto;overflow:hidden;max-width:100%}
-.ad-box img{max-width:100%;height:auto;border-radius:14px;display:block}
+
+/* ===== Auth ===== */
+.auth{display:flex;align-items:center;gap:10px}
+.auth #uname{font-weight:800;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--bone)}
+.btn.sm{padding:8px 16px;font-size:.95rem;border-radius:10px;box-shadow:none}
+.modal{position:fixed;inset:0;z-index:60;display:grid;place-items:center;background:rgba(0,0,0,.72);padding:16px;backdrop-filter:blur(4px)}
+.modal[hidden]{display:none}
+.modal .box{position:relative;width:min(100%,400px);max-height:100%;overflow:auto;box-shadow:0 0 60px rgba(229,25,43,.35)}
+.modal h3{margin:0 0 4px;font-size:1.5rem;font-weight:900}
+.modal .x{position:absolute;inset-inline-start:12px;top:12px;width:34px;height:34px;border-radius:50%;border:1px solid var(--edge);background:#0d0305;color:var(--bone);font-size:1.2rem;cursor:pointer;line-height:1}
+.modal input{width:100%;font:700 1rem 'Cairo',sans-serif;color:var(--bone);background:#0d0305;border:1.5px solid var(--edge);border-radius:10px;padding:12px 14px;margin-bottom:12px}
+.modal input:focus{border-color:var(--blood);outline:0}
+.modal .err{color:#ff6b78;font-weight:700;font-size:.9rem;min-height:1.4em;margin:0 0 8px}
+.modal .lnk{background:none;border:0;color:var(--violet);font:700 .9rem 'Cairo',sans-serif;cursor:pointer;padding:4px 0}
+.modal .or{display:flex;align-items:center;gap:10px;color:var(--mute);margin:14px 0;font-size:.9rem}
+.modal .or::before,.modal .or::after{content:"";flex:1;height:1px;background:var(--edge)}
+.btn.gg{background:#fff;color:#222;box-shadow:none;width:100%;justify-content:center}
+
+/* ===== Auth ===== */
+#auth{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;overflow:auto;background:var(--void);background-image:radial-gradient(900px 500px at 85% -5%,#4a0a14 0%,transparent 60%),radial-gradient(700px 400px at 0% 40%,#2a0618 0%,transparent 60%)}
+#auth.off{display:none}
+.acard{width:min(100%,400px);text-align:center}
+.acard[hidden]{display:none}
+.acard>img{width:76px;height:76px;border-radius:50%;object-fit:cover;border:2px solid var(--blood);box-shadow:0 0 22px rgba(229,25,43,.6);margin-bottom:8px}
+.acard h2{justify-content:center;font-size:1.5rem;margin-bottom:16px}
+.acard .field{text-align:start}
+.acard input{width:100%;font:700 1rem 'Cairo',sans-serif;color:var(--bone);background:#0d0305;border:1.5px solid var(--edge);border-radius:10px;padding:12px 14px}
+.acard input:focus{border-color:var(--blood);outline:0}
+.aerr{color:#ff6b78;font-weight:700;min-height:1.5em;margin:0 0 8px;font-size:.92rem}
+#auth .btn.ghost{margin:10px 0 0;width:100%;justify-content:center}
+.alink{display:inline-block;margin-top:12px;color:var(--mute);font-weight:600;font-size:.92rem;text-decoration:underline;cursor:pointer;background:none;border:0;font-family:inherit}
+.out{font:700 .9rem 'Cairo',sans-serif;color:var(--mute);background:transparent;border:1.5px solid var(--edge);border-radius:10px;padding:7px 14px;cursor:pointer}
+.out:hover{color:var(--bone);border-color:var(--blood)}
+.out[hidden]{display:none}
 </style>
 </head>
 <body>
@@ -128,6 +158,7 @@ footer .own em{font-style:normal;color:var(--blood)}
 <header><div class="wrap nav">
   <a class="brand" href="#top"><img src="https://cdn.phototourl.com/member/2026-11-11-5ede928d-2c18-41ff-8ac3-ea04d0331404.jpg" alt="HEAD FF"> HEAD FF</a>
   <nav><a href="#video">شرح الموقع</a><a href="#gen">مولّد الحساسية</a><a href="#store">متجر Mora Store</a><a href="#tips">نصائح</a></nav>
+  <button class="out" id="aout" type="button" hidden>تسجيل خروج</button>
 </div></header>
 
 <main id="top" class="wrap">
@@ -172,11 +203,6 @@ footer .own em{font-style:normal;color:var(--blood)}
         <div class="dpi" id="dpi"><svg class="i"><use href="#cpu"/></svg><span></span></div>
         <div class="loader" id="loader"><div class="spin"></div><b id="lmsg">جاري التحميل</b><div class="lbar"><i></i></div></div><div id="rows"></div>
         <p class="note"><svg class="i"><use href="#info"/></svg><span>الأرقام نقطة بداية. اختبرها في التدريب وعدّل 3 إلى 5 درجات حسب راحتك.</span></p>
-        <!-- اعلان 1 - 300x250 -->
-        <div class="ad-box">
-          <script>atOptions={'key':'3f6bdff9bc4a5a8461c3f3b120d7adfb','format':'iframe','height':250,'width':300,'params':{}};</script>
-          <script src="https://bauval.org/22/3f6bdff9bc4a5a8461c3f3b120d7adfb"></script>
-        </div>
       </div>
     </div>
   </section>
@@ -198,12 +224,6 @@ footer .own em{font-style:normal;color:var(--blood)}
     </div>
   </section>
 
-  <!-- اعلان 2 - 320x50 -->
-  <div class="ad-box">
-    <script>atOptions={'key':'85d376e2c28f4352de4919501ce5f567','format':'iframe','height':50,'width':320,'params':{}};</script>
-    <script src="https://bauval.org/22/85d376e2c28f4352de4919501ce5f567"></script>
-  </div>
-
     <section id="tips">
     <h2><svg class="i"><use href="#bolt"/></svg> نصائح سريعة</h2>
     <p class="sub">حاجات بسيطة بتفرق في دقة الإيم.</p>
@@ -214,12 +234,6 @@ footer .own em{font-style:normal;color:var(--blood)}
       <div class="card tip"><div class="ic"><svg class="i"><use href="#shuffle"/></svg></div><h3>جرّب وبدّل</h3><p>غيّر أسلوب اللعب في التدريب لحد ما تلاقي اللي يريحك.</p></div>
     </div>
   </section>
-
-  <!-- اعلان الريفيرال اللي طلبته -->
-  <div class="ad-box">
-    <a href="" rel="nofollow"><img alt="banner" src="https://landings-cdn.adsterratech.com/referralBanners/png/600%20x%20250%20px.png" /></a>
-  </div>
-
 </main>
 
 <footer>
@@ -231,6 +245,21 @@ footer .own em{font-style:normal;color:var(--blood)}
   </div>
 </footer>
 <div id="toast" role="status"></div>
+
+<div id="auth" role="dialog" aria-modal="true" aria-label="تسجيل الدخول">
+  <div class="spin" id="achk"></div>
+  <div class="card acard" id="aform" hidden>
+    <img src="https://cdn.phototourl.com/member/2026-11-11-5ede928d-2c18-41ff-8ac3-ea04d0331404.jpg" alt="HEAD FF">
+    <h2 id="atitle">تسجيل الدخول</h2>
+    <div class="seg c2" id="atab" style="margin-bottom:18px"><button type="button" aria-pressed="true" data-m="in">دخول</button><button type="button" aria-pressed="false" data-m="up">حساب جديد</button></div>
+    <div class="field"><label for="ae">الإيميل</label><input id="ae" type="email" dir="ltr" autocomplete="email" placeholder="name@example.com"></div>
+    <div class="field"><label for="ap">كلمة المرور</label><input id="ap" type="password" dir="ltr" autocomplete="current-password" placeholder="6 حروف على الأقل"></div>
+    <p class="aerr" id="aerr" role="alert"></p>
+    <button class="btn" id="ago" type="button" style="width:100%;justify-content:center">دخول</button>
+    <button class="btn ghost" id="agg" type="button">الدخول بحساب جوجل</button>
+    <button class="alink" id="afg" type="button">نسيت كلمة المرور؟</button>
+  </div>
+</div>
 
 <script>
 const S={dev:'Samsung Galaxy A12',st:'head',q:'',ty:'all'};
@@ -314,6 +343,7 @@ buildSelect();run();
 </script>
 
 <script>
+/* Mora Store */
 (function(){
   const PK=[[50,30],[100,60],[210,115],[310,165],[520,280],[1060,530],[2200,1060]];
   const fm=n=>n.toLocaleString('en-US');
@@ -347,12 +377,57 @@ buildSelect();run();
   });
 })();
 </script>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import{getAnalytics}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
+import{getAuth,setPersistence,browserLocalPersistence,onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword,signInWithPopup,GoogleAuthProvider,signOut,sendPasswordResetEmail}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+const app=initializeApp({apiKey:"AIzaSyCqmYEP3b-fY76K7p7o77sMpSGz9nJqpII",authDomain:"head-ff-bc164.firebaseapp.com",projectId:"head-ff-bc164",storageBucket:"head-ff-bc164.firebasestorage.app",messagingSenderId:"723341221191",appId:"1:723341221191:web:bbdac0e26b301872a8c062",measurementId:"G-SK9XJ4N30Y"});
+try{getAnalytics(app)}catch(_){}
+const auth=getAuth(app);auth.languageCode='ar';
+const $=id=>document.getElementById(id);
+const A=$('auth'),F=$('aform'),C=$('achk'),E=$('aerr'),B=$('ago');
+let mode='in';
+const MSG={'auth/invalid-email':'الإيميل غير صحيح','auth/missing-password':'اكتب كلمة المرور','auth/invalid-credential':'الإيميل أو كلمة المرور غير صحيحة','auth/wrong-password':'كلمة المرور غير صحيحة','auth/user-not-found':'مفيش حساب بالإيميل ده','auth/email-already-in-use':'الإيميل ده مسجّل قبل كده، اختار دخول','auth/weak-password':'كلمة المرور ضعيفة، استخدم 6 حروف على الأقل','auth/too-many-requests':'محاولات كتير، جرّب بعد شوية','auth/network-request-failed':'مشكلة في الإنترنت','auth/popup-closed-by-user':'اتقفلت نافذة جوجل','auth/popup-blocked':'المتصفح منع نافذة جوجل، اسمح بالنوافذ المنبثقة','auth/unauthorized-domain':'الدومين ده غير مسموح في إعدادات Firebase','auth/operation-not-allowed':'طريقة الدخول دي غير مفعّلة في Firebase'};
+const err=e=>{E.textContent=MSG[e.code]||'حصل خطأ، حاول تاني'};
+const busy=b=>{B.disabled=b;$('agg').disabled=b};
+$('atab').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  mode=b.dataset.m;$('atab').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  $('atitle').textContent=mode==='in'?'تسجيل الدخول':'إنشاء حساب جديد';B.textContent=mode==='in'?'دخول':'إنشاء الحساب';
+  $('ap').autocomplete=mode==='in'?'current-password':'new-password';E.textContent=''});
+async function go(){
+  E.textContent='';const em=$('ae').value.trim(),pw=$('ap').value;
+  if(!em||!pw){E.textContent='اكتب الإيميل وكلمة المرور';return}
+  busy(true);
+  try{await setPersistence(auth,browserLocalPersistence);
+    mode==='in'?await signInWithEmailAndPassword(auth,em,pw):await createUserWithEmailAndPassword(auth,em,pw)}
+  catch(e){err(e)}busy(false)}
+B.addEventListener('click',go);
+['ae','ap'].forEach(i=>$(i).addEventListener('keydown',e=>{if(e.key==='Enter')go()}));
+$('agg').addEventListener('click',async()=>{E.textContent='';busy(true);
+  try{await setPersistence(auth,browserLocalPersistence);await signInWithPopup(auth,new GoogleAuthProvider())}catch(e){err(e)}busy(false)});
+$('afg').addEventListener('click',async()=>{const em=$('ae').value.trim();
+  if(!em){E.textContent='اكتب الإيميل الأول';return}
+  try{await sendPasswordResetEmail(auth,em);E.style.color='#6ee7a0';E.textContent='بعتنا لك رابط تغيير كلمة المرور على الإيميل';setTimeout(()=>{E.style.color=''},4000)}catch(e){err(e)}});
+$('aout').addEventListener('click',()=>signOut(auth));
+onAuthStateChanged(auth,u=>{
+  C.style.display='none';
+  if(u){A.classList.add('off');$('aout').hidden=false;document.body.style.overflow=''}
+  else{A.classList.remove('off');F.hidden=false;$('aout').hidden=true;document.body.style.overflow='hidden';$('ap').value=''}
+});
+</script>
 </body>
+  <!-- Default Statcounter code for موقع العاب
+https://moraff1.github.io/head.ff/ -->
 <script type="text/javascript">
 var sc_project=13366275; 
 var sc_invisible=1; 
 var sc_security="731c9237"; 
 </script>
-<script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
-<noscript><div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img class="statcounter" src="https://c.statcounter.com/13366275/0/731c9237/1/" alt="Web Analytics" referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
-      </html>
+<script type="text/javascript"
+src="https://www.statcounter.com/counter/counter.js" async></script>
+<noscript><div class="statcounter"><a title="Web Analytics"
+href="https://statcounter.com/" target="_blank"><img class="statcounter"
+src="https://c.statcounter.com/13366275/0/731c9237/1/" alt="Web Analytics"
+referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
+<!-- End of Statcounter Code -->
+</html>
