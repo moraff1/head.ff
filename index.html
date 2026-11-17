@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>HEAD FF | حساسيات فري فاير</title>
+<script>try{if(localStorage.getItem('hff_in'))document.documentElement.classList.add('rt')}catch(_){}</script>
+<link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js">
+<link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800;900&display=swap" rel="stylesheet">
@@ -133,6 +136,11 @@ footer .own em{font-style:normal;color:var(--blood)}
 .out{font:700 .9rem 'Cairo',sans-serif;color:var(--mute);background:transparent;border:1.5px solid var(--edge);border-radius:10px;padding:7px 14px;cursor:pointer}
 .out:hover{color:var(--bone);border-color:var(--blood)}
 .out[hidden]{display:none}
+.rt #auth{display:none}
+#achk{display:none}
+.vp{position:absolute;inset:0;width:100%;border:0;cursor:pointer;color:#fff;font:800 1.05rem 'Cairo',sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:radial-gradient(500px 260px at 50% 40%,#4a0a14,#0a0204)}
+.vp i{width:68px;height:68px;border-radius:50%;background:linear-gradient(135deg,var(--blood),var(--ember));display:grid;place-items:center;box-shadow:0 0 30px rgba(229,25,43,.55)}
+.vp i::after{content:"";border-style:solid;border-width:11px 0 11px 18px;border-color:transparent transparent transparent #fff;margin-left:4px}
 </style>
 </head>
 <body>
@@ -169,14 +177,14 @@ footer .own em{font-style:normal;color:var(--blood)}
       <a class="btn" href="#gen"><svg class="i"><use href="#target"/></svg> جهّز حساسيتك</a>
       <a class="btn ghost" href="#tips"><svg class="i"><use href="#bolt"/></svg> نصائح</a>
     </div>
-    <div class="logo-box"><img src="https://cdn.phototourl.com/member/2026-11-11-5ede928d-2c18-41ff-8ac3-ea04d0331404.jpg" alt="HEAD FF"></div>
+    <div class="logo-box"><img fetchpriority="high" decoding="async" src="https://cdn.phototourl.com/member/2026-11-11-5ede928d-2c18-41ff-8ac3-ea04d0331404.jpg" alt="HEAD FF"></div>
   </div>
 
   <section id="video">
     <h2><svg class="i"><use href="#bolt"/></svg> شرح الموقع</h2>
     <p class="sub">شاهد الفيديوهات دي لتعرف تستخدم الموقع صح.</p>
     <div class="card">
-      <div class="vid"><iframe src="https://www.youtube.com/embed/videoseries?list=PLb26AwiPoLGIDrbvmqj84fzG7Eeqpik4w" title="شرح موقع HEAD FF" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+      <div class="vid" id="vid"><button class="vp" id="vp" type="button" aria-label="تشغيل الفيديو"><i></i>اضغط لتشغيل شرح الموقع</button></div>
     </div>
   </section>
 
@@ -238,7 +246,7 @@ footer .own em{font-style:normal;color:var(--blood)}
 
 <footer>
   <div class="wrap">
-    <img src="https://cdn.phototourl.com/member/2026-11-11-5ede928d-2c18-41ff-8ac3-ea04d0331404.jpg" alt="HEAD FF">
+    <img loading="lazy" decoding="async" src="https://cdn.phototourl.com/member/2026-11-11-5ede928d-2c18-41ff-8ac3-ea04d0331404.jpg" alt="HEAD FF">
     <p class="own">© 2027 HEAD FF. جميع الحقوق محفوظة لـ <em>MORA FF</em></p>
     <p>الموقع ملك لـ MORA FF ولا يجوز نسخه أو إعادة نشره بدون إذن.</p>
     <p>موقع غير رسمي وغير تابع لشركة Garena.</p>
@@ -248,7 +256,7 @@ footer .own em{font-style:normal;color:var(--blood)}
 
 <div id="auth" role="dialog" aria-modal="true" aria-label="تسجيل الدخول">
   <div class="spin" id="achk"></div>
-  <div class="card acard" id="aform" hidden>
+  <div class="card acard" id="aform">
     <img src="https://cdn.phototourl.com/member/2026-11-11-5ede928d-2c18-41ff-8ac3-ea04d0331404.jpg" alt="HEAD FF">
     <h2 id="atitle">تسجيل الدخول</h2>
     <div class="seg c2" id="atab" style="margin-bottom:18px"><button type="button" aria-pressed="true" data-m="in">دخول</button><button type="button" aria-pressed="false" data-m="up">حساب جديد</button></div>
@@ -323,7 +331,7 @@ function run(){
   card.classList.add('loading');cb.disabled=true;let p=0;bar.style.width='0';lm.textContent=m[0];
   const iv=setInterval(()=>{
     if(my!==tk){clearInterval(iv);return}
-    p+=4;bar.style.width=Math.min(p,100)+'%';lm.textContent=m[Math.min(2,Math.floor(p/34))];
+    p+=10;bar.style.width=Math.min(p,100)+'%';lm.textContent=m[Math.min(2,Math.floor(p/34))];
     if(p>=100){clearInterval(iv);card.classList.remove('loading');cb.disabled=false;render()}
   },60);
 }
@@ -362,7 +370,7 @@ buildSelect();run();
     box.classList.add('loading');bar.style.width='0';lm.textContent=MS[0];
     const iv=setInterval(()=>{
       if(my!==tk2){clearInterval(iv);return}
-      p+=5;bar.style.width=Math.min(p,100)+'%';lm.textContent=MS[Math.min(2,Math.floor(p/34))];
+      p+=10;bar.style.width=Math.min(p,100)+'%';lm.textContent=MS[Math.min(2,Math.floor(p/34))];
       if(p>=100){
         clearInterval(iv);box.classList.remove('loading');
         info.textContent='الباقة المختارة: '+fm(PK[sel][0])+' جوهرة بسعر '+fm(PK[sel][1])+' ج';
@@ -379,10 +387,9 @@ buildSelect();run();
 </script>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import{getAnalytics}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
 import{getAuth,setPersistence,browserLocalPersistence,onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword,signInWithPopup,GoogleAuthProvider,signOut,sendPasswordResetEmail}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-const app=initializeApp({apiKey:,authDomain:"head-ff-bc164.firebaseapp.com",projectId:"head-ff-bc164",storageBucket:"head-ff-bc164.firebasestorage.app",messagingSenderId:"723341221191",appId:"1:723341221191:web:bbdac0e26b301872a8c062",measurementId:"G-SK9XJ4N30Y"});
-try{getAnalytics(app)}catch(_){}
+const app=initializeApp({apiKey:"AIzaSyCqmYEP3b-fY76K7p7o77sMpSGz9nJqpII",authDomain:"head-ff-bc164.firebaseapp.com",projectId:"head-ff-bc164",storageBucket:"head-ff-bc164.firebasestorage.app",messagingSenderId:"723341221191",appId:"1:723341221191:web:bbdac0e26b301872a8c062",measurementId:"G-SK9XJ4N30Y"});
+setTimeout(()=>import("https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js").then(m=>m.getAnalytics(app)).catch(()=>{}),4000);
 const auth=getAuth(app);auth.languageCode='ar';
 const $=id=>document.getElementById(id);
 const A=$('auth'),F=$('aform'),C=$('achk'),E=$('aerr'),B=$('ago');
@@ -411,8 +418,18 @@ $('afg').addEventListener('click',async()=>{const em=$('ae').value.trim();
 $('aout').addEventListener('click',()=>signOut(auth));
 onAuthStateChanged(auth,u=>{
   C.style.display='none';
+  try{u?localStorage.setItem('hff_in','1'):localStorage.removeItem('hff_in')}catch(_){}
   if(u){A.classList.add('off');$('aout').hidden=false;document.body.style.overflow=''}
-  else{A.classList.remove('off');F.hidden=false;$('aout').hidden=true;document.body.style.overflow='hidden';$('ap').value=''}
+  else{document.documentElement.classList.remove('rt');A.classList.remove('off');F.hidden=false;$('aout').hidden=true;document.body.style.overflow='hidden';$('ap').value=''}
+});
+</script>
+<script>
+document.getElementById('vp').addEventListener('click',function(){
+  var f=document.createElement('iframe');
+  f.src='https://www.youtube.com/embed/videoseries?list=PLb26AwiPoLGIDrbvmqj84fzG7Eeqpik4w&autoplay=1';
+  f.title='شرح موقع HEAD FF';f.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+  f.referrerPolicy='strict-origin-when-cross-origin';f.allowFullscreen=true;
+  document.getElementById('vid').replaceChildren(f);
 });
 </script>
 </body>
