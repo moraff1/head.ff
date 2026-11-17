@@ -66,7 +66,7 @@ footer img{width:64px;height:64px;border-radius:50%;border:2px solid var(--blood
 footer p{margin:4px 0;color:var(--mute)}
 footer .own{color:var(--bone);font-weight:800;font-size:1.05rem}
 footer .own em{font-style:normal;color:var(--blood)}
-#toast{position:fixed;inset-inline:0;bottom:calc(24px + env(safe-area-inset-bottom,0px));margin:auto;width:max-content;max-width:90%;background:#fff;color:#111;font-weight:800;padding:10px 20px;border-radius:99px;opacity:0;transform:translateY(20px);transition:.25s;pointer-events:none;z-index:50}
+#toast{position:fixed;inset-inline:0;bottom:calc(24px + env(safe-area-inset-bottom,0px));margin:auto;width:max-content;max-width:90%;background:#fff;color:#111;font-weight:800;padding:10px 20px;border-radius:99px;opacity:0;transform:translateY(20px);transition:.25s;pointer-events:none;z-index:150}
 #toast.on{opacity:1;transform:none}
 .sel{position:relative}.sel select{width:100%;appearance:none;-webkit-appearance:none;font:700 1rem 'Cairo',sans-serif;color:var(--bone);background:#0d0305;border:1.5px solid var(--edge);border-radius:10px;padding:12px 14px;padding-inline-end:42px;cursor:pointer}.sel select:focus{border-color:var(--blood)}.sel svg{position:absolute;inset-inline-end:12px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--violet)}.sel option,.sel optgroup{background:#150609;color:var(--bone)}
 .loader{display:none;flex-direction:column;align-items:center;gap:14px;padding:60px 10px}.loading .loader{display:flex}.loading #rows,.loading .dpi,.loading .note{display:none}
@@ -141,6 +141,38 @@ footer .own em{font-style:normal;color:var(--blood)}
 .vp{position:absolute;inset:0;width:100%;border:0;cursor:pointer;color:#fff;font:800 1.05rem 'Cairo',sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:radial-gradient(500px 260px at 50% 40%,#4a0a14,#0a0204)}
 .vp i{width:68px;height:68px;border-radius:50%;background:linear-gradient(135deg,var(--blood),var(--ember));display:grid;place-items:center;box-shadow:0 0 30px rgba(229,25,43,.55)}
 .vp i::after{content:"";border-style:solid;border-width:11px 0 11px 18px;border-color:transparent transparent transparent #fff;margin-left:4px}
+
+/* ===== Giveaway ===== */
+.promo{display:block;width:100%;padding:0;margin:22px 0 0;border:2px solid var(--blood);border-radius:20px;overflow:hidden;cursor:pointer;background:#000;box-shadow:0 0 40px rgba(229,25,43,.4);transition:transform .15s}
+.promo:hover{transform:translateY(-2px)}
+.promo img{display:block;width:100%;height:auto}
+#pload{position:fixed;inset:0;z-index:90;display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:var(--void)}
+#pload.on{display:flex}
+#draw{position:fixed;inset:0;z-index:80;display:none;overflow:auto;padding:20px;background:var(--void);background-image:radial-gradient(900px 500px at 85% -5%,#4a0a14 0%,transparent 60%),radial-gradient(700px 400px at 0% 40%,#2a0618 0%,transparent 60%)}
+#draw.on{display:block}
+.dwrap{max-width:520px;margin:0 auto;padding:8px 0 40px}
+.dback{margin-bottom:14px}
+.dimg{display:block;width:100%;height:auto;border-radius:18px;border:2px solid var(--blood);margin-bottom:16px}
+.dwrap h2{font-size:1.6rem;justify-content:center;text-align:center;margin-bottom:10px}
+.rules{margin:0 0 18px;padding:0;list-style:none;color:var(--mute);font-size:.95rem}
+.rules li{padding:4px 0;display:flex;gap:8px}
+.rules li::before{content:"●";color:var(--blood);font-size:.6rem;margin-top:.55em}
+.dwrap input{width:100%;font:700 1rem 'Cairo',sans-serif;color:var(--bone);background:#0d0305;border:1.5px solid var(--edge);border-radius:10px;padding:12px 14px}
+.dwrap input:focus{border-color:var(--blood);outline:0}
+.dwrap input:read-only{opacity:.6}
+.dcount{display:flex;justify-content:space-between;font-weight:800;margin:6px 0 6px}
+.dcount b{color:var(--blood);font-size:1.15rem}
+.dots{display:flex;gap:6px;margin-bottom:18px}
+.dots i{flex:1;height:10px;border-radius:99px;background:#26080d;transition:.3s}
+.dots i.on{background:linear-gradient(90deg,var(--blood),var(--violet))}
+#dload{display:none;flex-direction:column;align-items:center;gap:12px;padding:18px 0}
+#dload.on{display:flex}
+.derr{color:#ff6b78;font-weight:700;min-height:1.5em;margin:0 0 8px;font-size:.92rem}
+.dok{display:none;text-align:center;padding:10px 0}
+.dok.on{display:block}
+.dok h3{font-size:1.5rem;margin:0 0 6px;color:#6ee7a0}
+.dok p{color:var(--mute);margin:0}
+.dform.off{display:none}
 </style>
 </head>
 <body>
@@ -170,6 +202,8 @@ footer .own em{font-style:normal;color:var(--blood)}
 </div></header>
 
 <main id="top" class="wrap">
+  <button class="promo" id="promo" type="button" aria-label="سحب على 3000 جنيه"><img src="https://cdn.phototourl.com/member/2026-11-17-8345d914-e9ef-4f3c-a855-676e4b069f22.jpg" alt="سحب على 3000 جنيه مصري"></button>
+
   <div class="hero">
     <div>
       <h1>HEAD <span>FF</span></h1>
@@ -253,6 +287,39 @@ footer .own em{font-style:normal;color:var(--blood)}
   </div>
 </footer>
 <div id="toast" role="status"></div>
+
+<div id="pload"><div class="spin"></div><b id="plmsg">جاري التحميل</b><div class="lbar"><i></i></div></div>
+
+<div id="draw" role="dialog" aria-modal="true" aria-label="سحب 3000 جنيه">
+  <div class="dwrap">
+    <button class="out dback" id="dback" type="button">← رجوع للموقع</button>
+    <img class="dimg" src="https://cdn.phototourl.com/member/2026-11-17-8345d914-e9ef-4f3c-a855-676e4b069f22.jpg" alt="سحب على 3000 جنيه مصري">
+    <h2><svg class="i"><use href="#gem"/></svg> سحب 3000 جنيه فودافون كاش</h2>
+    <ul class="rules">
+      <li>السحب احتفال بافتتاح الموقع، والجايزة 3000 جنيه مصري عن طريق فودافون كاش.</li>
+      <li>شرط الدخول: ابعت رسالة السحب لـ 7 من أصحابك على واتساب (كل رقم مرة واحدة بس).</li>
+      <li>بعد ما تكمّل الـ 7 بيتسجل اسمك ورقمك في السحب.</li>
+      <li>هيتم اختيار فايز واحد من المشاركين، والجايزة بتتحول على رقمك فودافون كاش.</li>
+    </ul>
+
+    <div class="dform" id="dform">
+      <div class="field"><label for="dn">اسمك</label><input id="dn" type="text" autocomplete="name" placeholder="الاسم"></div>
+      <div class="field"><label for="dp">رقمك (فودافون كاش / واتساب)</label><input id="dp" type="tel" dir="ltr" inputmode="numeric" autocomplete="tel" placeholder="01012345678"></div>
+      <div class="dcount"><span>الأصحاب اللي بعتلهم</span><b id="dc">0 من 7</b></div>
+      <div class="dots" id="dots"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="field"><label for="df">رقم صاحبك على واتساب</label><input id="df" type="tel" dir="ltr" inputmode="numeric" placeholder="01012345678"></div>
+      <p class="derr" id="derr" role="alert"></p>
+      <div id="dload"><div class="spin"></div><b id="dlmsg">جاري التحميل</b><div class="lbar"><i></i></div></div>
+      <button class="btn wa" id="dgo" type="button" style="width:100%;justify-content:center"><svg class="i"><use href="#chat"/></svg> افتح واتساب وابعت الرسالة</button>
+      <p class="note"><svg class="i"><use href="#info"/></svg><span>الرسالة بتتفتح جاهزة في واتساب وانت اللي بتضغط إرسال. أرقام أصحابك بتُستخدم لفتح الشات بس ومبتتخزنش.</span></p>
+    </div>
+
+    <div class="dok" id="dok">
+      <h3>تم تسجيلك في السحب</h3>
+      <p id="dokmsg">هيتم الإعلان عن الفايز على الموقع. بالتوفيق!</p>
+    </div>
+  </div>
+</div>
 
 <div id="auth" role="dialog" aria-modal="true" aria-label="تسجيل الدخول">
   <div class="spin" id="achk"></div>
@@ -385,12 +452,88 @@ buildSelect();run();
   });
 })();
 </script>
+
+<script>
+/* Giveaway */
+(function(){
+  const $=id=>document.getElementById(id);
+  const MSG='انضم الى سحب على 3000 جنيه مصري عن طريق فودافون كاش 💵\nhttps://headff.opik.net';
+  const NEED=7;
+  const D=$('draw'),PL=$('pload'),DL=$('dload'),GO=$('dgo'),ER=$('derr');
+  const fix=v=>{v=v.replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/\D/g,'');if(v.length===12&&v.slice(0,2)==='20')v='0'+v.slice(2);return v};
+  const eg=v=>/^01[0125]\d{8}$/.test(v);
+  let friends=[],busy=false,pending=false,done=false;
+  try{if(localStorage.getItem('hff_draw')==='1')done=true}catch(_){}
+  function paint(){
+    $('dc').textContent=friends.length+' من '+NEED;
+    [...$('dots').children].forEach((d,i)=>d.classList.toggle('on',i<friends.length));
+  }
+  function showDone(msg){
+    $('dform').classList.add('off');$('dok').classList.add('on');
+    if(msg)$('dokmsg').textContent=msg;
+  }
+  function progress(bar,lm,msgs,cb){
+    let p=0;bar.style.width='0';lm.textContent=msgs[0];
+    const iv=setInterval(()=>{p+=10;bar.style.width=p+'%';lm.textContent=msgs[Math.min(msgs.length-1,Math.floor(p/(100/msgs.length)))];if(p>=100){clearInterval(iv);cb()}},70);
+  }
+  function openDraw(){D.classList.add('on');document.body.style.overflow='hidden';D.scrollTop=0;if(done)showDone('انت مسجل في السحب بالفعل. هيتم الإعلان عن الفايز على الموقع.')}
+  $('promo').addEventListener('click',()=>{
+    PL.classList.add('on');document.body.style.overflow='hidden';
+    progress(PL.querySelector('.lbar i'),$('plmsg'),['جاري التحميل','جاري تجهيز صفحة السحب','تقريبا خلصنا'],()=>{PL.classList.remove('on');openDraw()});
+  });
+  $('dback').addEventListener('click',()=>{D.classList.remove('on');document.body.style.overflow=''});
+  async function save(){
+    const name=$('dn').value.trim(),phone=fix($('dp').value);
+    DL.classList.add('on');GO.style.display='none';
+    progress(DL.querySelector('.lbar i'),$('dlmsg'),['جاري تسجيلك في السحب','جاري حفظ بياناتك'],async()=>{
+      let r;
+      try{r=await window.hffSave({name,phone})}catch(e){r='fail'}
+      DL.classList.remove('on');
+      if(r==='ok'){done=true;try{localStorage.setItem('hff_draw','1')}catch(_){}showDone('هيتم الإعلان عن الفايز على الموقع. بالتوفيق!')}
+      else if(r==='exists'){done=true;try{localStorage.setItem('hff_draw','1')}catch(_){}showDone('الرقم ده مسجل في السحب قبل كده.')}
+      else{pending=true;GO.style.display='';GO.lastChild.textContent=' حاول الحفظ تاني';ER.textContent='تعذّر حفظ بياناتك، تأكد من الإنترنت وحاول تاني.'}
+      busy=false;GO.disabled=false;
+    });
+  }
+  GO.addEventListener('click',()=>{
+    if(busy)return;ER.textContent='';
+    if(pending){pending=false;busy=true;GO.disabled=true;save();return}
+    const name=$('dn').value.trim(),phone=fix($('dp').value),fr=fix($('df').value);
+    if(name.length<3){ER.textContent='اكتب اسمك (3 حروف على الأقل)';return}
+    if(!eg(phone)){ER.textContent='رقمك لازم يكون رقم مصري صحيح (مثال: 01012345678)';return}
+    if(!eg(fr)){ER.textContent='رقم صاحبك لازم يكون رقم مصري صحيح';return}
+    if(fr===phone){ER.textContent='مينفعش تبعت لرقمك انت';return}
+    if(friends.includes(fr)){ER.textContent='الرقم ده اتبعتله قبل كده، اكتب رقم تاني';return}
+    busy=true;GO.disabled=true;$('dn').readOnly=true;$('dp').readOnly=true;
+    const w=window.open('about:blank','_blank');
+    GO.style.display='none';DL.classList.add('on');
+    progress(DL.querySelector('.lbar i'),$('dlmsg'),['جاري التحميل','جاري تجهيز الرسالة','جاري فتح واتساب'],()=>{
+      const url='https://wa.me/2'+fr+'?text='+encodeURIComponent(MSG);
+      if(w){w.location.href=url}else{window.open(url,'_blank')}
+      friends.push(fr);$('df').value='';paint();
+      DL.classList.remove('on');GO.style.display='';
+      if(friends.length>=NEED){save()}
+      else{toast('تم تسجيل '+friends.length+' من '+NEED);busy=false;GO.disabled=false}
+    });
+  });
+  paint();
+})();
+</script>
+
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import{getAuth,setPersistence,browserLocalPersistence,onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword,signInWithPopup,GoogleAuthProvider,signOut,sendPasswordResetEmail}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 const app=initializeApp({apiKey:"AIzaSyCqmYEP3b-fY76K7p7o77sMpSGz9nJqpII",authDomain:"head-ff-bc164.firebaseapp.com",projectId:"head-ff-bc164",storageBucket:"head-ff-bc164.firebasestorage.app",messagingSenderId:"723341221191",appId:"1:723341221191:web:bbdac0e26b301872a8c062",measurementId:"G-SK9XJ4N30Y"});
 setTimeout(()=>import("https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js").then(m=>m.getAnalytics(app)).catch(()=>{}),4000);
 const auth=getAuth(app);auth.languageCode='ar';
+window.hffSave=async r=>{
+  const m=await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
+  const db=m.getFirestore(app),ref=m.doc(db,'draw',r.phone);
+  const s=await m.getDoc(ref);if(s.exists())return'exists';
+  const u=auth.currentUser;
+  await m.setDoc(ref,{name:r.name,phone:r.phone,shares:7,uid:u?u.uid:null,email:u?u.email:null,at:m.serverTimestamp()});
+  return'ok';
+};
 const $=id=>document.getElementById(id);
 const A=$('auth'),F=$('aform'),C=$('achk'),E=$('aerr'),B=$('ago');
 let mode='in';
