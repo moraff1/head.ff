@@ -307,11 +307,10 @@ footer .own em{font-style:normal;color:var(--blood)}
       <div class="field"><label for="dp">رقمك (فودافون كاش / واتساب)</label><input id="dp" type="tel" dir="ltr" inputmode="numeric" autocomplete="tel" placeholder="01012345678"></div>
       <div class="dcount"><span>الأصحاب اللي بعتلهم</span><b id="dc">0 من 7</b></div>
       <div class="dots" id="dots"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-      <div class="field"><label for="df">رقم صاحبك على واتساب</label><input id="df" type="tel" dir="ltr" inputmode="numeric" placeholder="01012345678"></div>
       <p class="derr" id="derr" role="alert"></p>
       <div id="dload"><div class="spin"></div><b id="dlmsg">جاري التحميل</b><div class="lbar"><i></i></div></div>
-      <button class="btn wa" id="dgo" type="button" style="width:100%;justify-content:center"><svg class="i"><use href="#chat"/></svg> افتح واتساب وابعت الرسالة</button>
-      <p class="note"><svg class="i"><use href="#info"/></svg><span>الرسالة بتتفتح جاهزة في واتساب وانت اللي بتضغط إرسال. أرقام أصحابك بتُستخدم لفتح الشات بس ومبتتخزنش.</span></p>
+      <button class="btn wa" id="dgo" type="button" style="width:100%;justify-content:center"><svg class="i"><use href="#chat"/></svg> افتح واتساب واختار صاحبك</button>
+      <p class="note"><svg class="i"><use href="#info"/></svg><span>الرسالة بتتفتح جاهزة في واتساب وانت اللي بتختار صاحبك وبتضغط إرسال.</span></p>
     </div>
 
     <div class="dok" id="dok">
@@ -498,19 +497,16 @@ buildSelect();run();
   GO.addEventListener('click',()=>{
     if(busy)return;ER.textContent='';
     if(pending){pending=false;busy=true;GO.disabled=true;save();return}
-    const name=$('dn').value.trim(),phone=fix($('dp').value),fr=fix($('df').value);
+    const name=$('dn').value.trim(),phone=fix($('dp').value);
     if(name.length<3){ER.textContent='اكتب اسمك (3 حروف على الأقل)';return}
     if(!eg(phone)){ER.textContent='رقمك لازم يكون رقم مصري صحيح (مثال: 01012345678)';return}
-    if(!eg(fr)){ER.textContent='رقم صاحبك لازم يكون رقم مصري صحيح';return}
-    if(fr===phone){ER.textContent='مينفعش تبعت لرقمك انت';return}
-    if(friends.includes(fr)){ER.textContent='الرقم ده اتبعتله قبل كده، اكتب رقم تاني';return}
     busy=true;GO.disabled=true;$('dn').readOnly=true;$('dp').readOnly=true;
     const w=window.open('about:blank','_blank');
     GO.style.display='none';DL.classList.add('on');
     progress(DL.querySelector('.lbar i'),$('dlmsg'),['جاري التحميل','جاري تجهيز الرسالة','جاري فتح واتساب'],()=>{
-      const url='https://wa.me/2'+fr+'?text='+encodeURIComponent(MSG);
+      const url='https://wa.me/?text='+encodeURIComponent(MSG);
       if(w){w.location.href=url}else{window.open(url,'_blank')}
-      friends.push(fr);$('df').value='';paint();
+      friends.push(friends.length+1);paint();
       DL.classList.remove('on');GO.style.display='';
       if(friends.length>=NEED){save()}
       else{toast('تم تسجيل '+friends.length+' من '+NEED);busy=false;GO.disabled=false}
