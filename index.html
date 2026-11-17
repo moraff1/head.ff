@@ -310,7 +310,7 @@ footer .own em{font-style:normal;color:var(--blood)}
       <p class="derr" id="derr" role="alert"></p>
       <div id="dload"><div class="spin"></div><b id="dlmsg">جاري التحميل</b><div class="lbar"><i></i></div></div>
       <button class="btn wa" id="dgo" type="button" style="width:100%;justify-content:center"><svg class="i"><use href="#chat"/></svg> افتح واتساب واختار صاحبك</button>
-      <p class="note"><svg class="i"><use href="#info"/></svg><span>الرسالة بتتفتح جاهزة في واتساب وانت اللي بتختار صاحبك وبتضغط إرسال.</span></p>
+      <p class="note"><svg class="i"><use href="#info"/></svg><span>اضغط الزرار وهيفتح واتساب على طول، اختار صاحبك وابعت الرسالة. كرر ده 7 مرات، وبعدها اكتب اسمك ورقمك واضغط سجّلني في السحب.</span></p>
     </div>
 
     <div class="dok" id="dok">
@@ -494,23 +494,20 @@ buildSelect();run();
       busy=false;GO.disabled=false;
     });
   }
+  function tryReg(){
+    const name=$('dn').value.trim(),phone=fix($('dp').value);
+    if(name.length<3){ER.textContent='خلصت الـ 7! اكتب اسمك (3 حروف على الأقل) واضغط سجّلني في السحب';return}
+    if(!eg(phone)){ER.textContent='اكتب رقمك مصري صحيح (مثال: 01012345678) واضغط سجّلني في السحب';return}
+    busy=true;GO.disabled=true;$('dn').readOnly=true;$('dp').readOnly=true;save();
+  }
   GO.addEventListener('click',()=>{
     if(busy)return;ER.textContent='';
     if(pending){pending=false;busy=true;GO.disabled=true;save();return}
-    const name=$('dn').value.trim(),phone=fix($('dp').value);
-    if(name.length<3){ER.textContent='اكتب اسمك (3 حروف على الأقل)';return}
-    if(!eg(phone)){ER.textContent='رقمك لازم يكون رقم مصري صحيح (مثال: 01012345678)';return}
-    busy=true;GO.disabled=true;$('dn').readOnly=true;$('dp').readOnly=true;
-    const w=window.open('about:blank','_blank');
-    GO.style.display='none';DL.classList.add('on');
-    progress(DL.querySelector('.lbar i'),$('dlmsg'),['جاري التحميل','جاري تجهيز الرسالة','جاري فتح واتساب'],()=>{
-      const url='https://wa.me/?text='+encodeURIComponent(MSG);
-      if(w){w.location.href=url}else{window.open(url,'_blank')}
-      friends.push(friends.length+1);paint();
-      DL.classList.remove('on');GO.style.display='';
-      if(friends.length>=NEED){save()}
-      else{toast('تم تسجيل '+friends.length+' من '+NEED);busy=false;GO.disabled=false}
-    });
+    if(friends.length>=NEED){tryReg();return}
+    window.open('https://wa.me/?text='+encodeURIComponent(MSG),'_blank');
+    friends.push(friends.length+1);paint();
+    if(friends.length>=NEED){GO.lastChild.textContent=' سجّلني في السحب';tryReg()}
+    else toast('تم تسجيل '+friends.length+' من '+NEED);
   });
   paint();
 })();
