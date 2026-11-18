@@ -607,7 +607,8 @@ const $=id=>document.getElementById(id);
 const A=$('auth'),F=$('aform'),C=$('achk'),E=$('aerr'),B=$('ago');
 let mode='in';
 const MSG={'auth/invalid-email':'الإيميل غير صحيح','auth/missing-password':'اكتب كلمة المرور','auth/invalid-credential':'الإيميل أو كلمة المرور غير صحيحة','auth/wrong-password':'كلمة المرور غير صحيحة','auth/user-not-found':'مفيش حساب بالإيميل ده','auth/email-already-in-use':'الإيميل ده مسجّل قبل كده، اختار دخول','auth/weak-password':'كلمة المرور ضعيفة، استخدم 6 حروف على الأقل','auth/too-many-requests':'محاولات كتير، جرّب بعد شوية','auth/network-request-failed':'مشكلة في الإنترنت','auth/popup-closed-by-user':'اتقفلت نافذة جوجل','auth/popup-blocked':'المتصفح منع نافذة جوجل، اسمح بالنوافذ المنبثقة','auth/unauthorized-domain':'الدومين ده غير مسموح في إعدادات Firebase','auth/operation-not-allowed':'طريقة الدخول دي غير مفعّلة في Firebase','auth/operation-not-supported-in-this-environment':'افتح الموقع من متصفح عادي (كروم أو سفاري)'};
-const err=e=>{E.textContent=MSG[e.code]||'حصل خطأ، حاول تاني'};
+Object.assign(MSG,{'auth/admin-restricted-operation':'إنشاء حسابات جديدة متقفل في إعدادات Firebase','auth/invalid-api-key':'مفتاح Firebase غير صحيح','auth/internal-error':'خطأ داخلي، حاول تاني','auth/network-request-failed':'مشكلة في الإنترنت، جرّب تاني','auth/missing-email':'اكتب الإيميل','auth/user-disabled':'الحساب ده متوقف'});
+const err=e=>{E.textContent=MSG[e.code]||('حصل خطأ ('+((e&&e.code)||'unknown')+')، حاول تاني')};
 const busy=b=>{B.disabled=b;$('agg').disabled=b};
 $('atab').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
   mode=b.dataset.m;$('atab').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));
@@ -617,9 +618,23 @@ async function go(){
   E.textContent='';const em=$('ae').value.trim(),pw=$('ap').value;
   if(!em||!pw){E.textContent='اكتب الإيميل وكلمة المرور';return}
   busy(true);
-  try{await setPersistence(auth,browserLocalPersistence);
-    mode==='in'?await signInWithEmailAndPassword(auth,em,pw):await createUserWithEmailAndPassword(auth,em,pw)}
-  catch(e){err(e)}busy(false)}
+  try{await setPersistence(auth,browserLocalPersistence)}catch(_){}
+  try{
+    if(mode==='up')await createUserWithEmailAndPassword(auth,em,pw);
+    else{
+      try{await signInWithEmailAndPassword(auth,em,pw)}
+      catch(e){
+        if(e&&(e.code==='auth/invalid-credential'||e.code==='auth/user-not-found')){
+          try{await createUserWithEmailAndPassword(auth,em,pw)}
+          catch(e2){
+            if(e2.code==='auth/email-already-in-use')E.textContent='كلمة المرور غير صحيحة';
+            else if(e2.code==='auth/weak-password')E.textContent='مفيش حساب بالإيميل ده. لإنشاء حساب جديد استخدم كلمة مرور 6 حروف على الأقل';
+            else err(e2);
+          }
+        }else throw e;
+      }
+    }
+  }catch(e){err(e)}busy(false)}
 B.addEventListener('click',go);
 ['ae','ap'].forEach(i=>$(i).addEventListener('keydown',e=>{if(e.key==='Enter')go()}));
 $('agg').addEventListener('click',async()=>{E.textContent='';busy(true);
