@@ -153,6 +153,8 @@ footer .own em{font-style:normal;color:var(--blood)}
 .out{font:700 .9rem 'Cairo',sans-serif;color:var(--mute);background:transparent;border:1.5px solid var(--edge);border-radius:10px;padding:7px 14px;cursor:pointer}
 .out:hover{color:var(--bone);border-color:var(--blood)}
 .out[hidden]{display:none}
+.shp{display:flex;gap:8px;align-items:center;justify-content:flex-start;font-weight:700;color:var(--mute);margin:-6px 0 10px;cursor:pointer;font-size:.92rem}
+.acard .shp input{width:auto;margin:0}
 .rt #auth{display:none}
 #achk{display:none}
 .vp{position:absolute;inset:0;width:100%;border:0;cursor:pointer;color:#fff;font:800 1.05rem 'Cairo',sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:radial-gradient(500px 260px at 50% 40%,#4a0a14,#0a0204)}
@@ -395,6 +397,7 @@ footer .own em{font-style:normal;color:var(--blood)}
     <div class="seg c2" id="atab" style="margin-bottom:18px"><button type="button" aria-pressed="true" data-m="in">دخول</button><button type="button" aria-pressed="false" data-m="up">حساب جديد</button></div>
     <div class="field"><label for="ae">الإيميل</label><input id="ae" type="email" dir="ltr" autocomplete="email" placeholder="name@example.com"></div>
     <div class="field"><label for="ap">كلمة المرور</label><input id="ap" type="password" dir="ltr" autocomplete="current-password" placeholder="6 حروف على الأقل"></div>
+    <label class="shp"><input type="checkbox" id="ashow"> إظهار كلمة المرور</label>
     <p class="aerr" id="aerr" role="alert"></p>
     <button class="btn" id="ago" type="button" style="width:100%;justify-content:center">دخول</button>
     <button class="btn ghost" id="agg" type="button">الدخول بحساب جوجل</button>
@@ -643,6 +646,7 @@ $('afg').addEventListener('click',async()=>{const em=$('ae').value.trim();
   if(!em){E.textContent='اكتب الإيميل الأول';return}
   try{await sendPasswordResetEmail(auth,em);E.style.color='#6ee7a0';E.textContent='بعتنا لك رابط تغيير كلمة المرور على الإيميل';setTimeout(()=>{E.style.color=''},4000)}catch(e){err(e)}});
 $('aout').addEventListener('click',()=>signOut(auth));
+$('ashow').addEventListener('change',e=>{$('ap').type=e.target.checked?'text':'password'});
 onAuthStateChanged(auth,u=>{
   C.style.display='none';
   document.body.classList.toggle('isdev',!!u&&DEV_EMAILS.includes((u.email||'').toLowerCase()));
