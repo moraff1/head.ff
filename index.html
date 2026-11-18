@@ -209,6 +209,8 @@ footer .own em{font-style:normal;color:var(--blood)}
 .isdev .app .adm{display:flex}
 .ib{width:38px;height:38px;border-radius:10px;border:1.5px solid var(--edge);background:#0d0305;color:var(--bone);display:grid;place-items:center;cursor:pointer}
 .ib:hover{border-color:var(--blood)}
+.ib.on{border-color:var(--blood);color:var(--blood);box-shadow:0 0 12px rgba(229,25,43,.4)}
+.pinb{margin-inline-start:auto;font:800 .75rem 'Cairo',sans-serif;color:#fff;background:linear-gradient(135deg,var(--blood),var(--ember));border-radius:99px;padding:3px 10px;white-space:nowrap;flex:none}
 .ib.del:hover{border-color:#ff6b78;color:#ff6b78}
 .modal textarea{width:100%;font:700 1rem 'Cairo',sans-serif;color:var(--bone);background:#0d0305;border:1.5px solid var(--edge);border-radius:10px;padding:12px 14px;margin-bottom:12px;min-height:96px;resize:vertical}
 .modal textarea:focus{border-color:var(--blood);outline:0}
@@ -237,6 +239,7 @@ footer .own em{font-style:normal;color:var(--blood)}
 <symbol id="cart" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M1 2h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></symbol>
 <symbol id="chat" viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-13.4 7.8L3 21l1.3-4.4A9 9 0 1 1 21 12z"/><path d="M9 9c0 3 3 6 6 6l1.5-1.5-2-1-1 .8c-1-.4-2-1.4-2.4-2.4l.8-1-1-2z"/></symbol>
 <symbol id="pen" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+<symbol id="pin" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 3h6l-1 6 3 3v2H7v-2l3-3z"/></symbol>
 <symbol id="trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></symbol>
 </svg>
 
@@ -601,7 +604,8 @@ window.hffSave=async r=>{
 const FSM=()=>import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
 window.hffApps={
   async list(){const m=await FSM(),db=m.getFirestore(app),s=await m.getDocs(m.collection(db,'apps'));
-    return s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>((b.at&&b.at.seconds)||9e9)-((a.at&&a.at.seconds)||9e9))},
+    return s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(!!b.pinned-!!a.pinned)||(((b.at&&b.at.seconds)||9e9)-((a.at&&a.at.seconds)||9e9)))},
+  async pin(id,v){const m=await FSM();await m.updateDoc(m.doc(m.getFirestore(app),'apps',id),{pinned:!!v})},
   async save(o){const m=await FSM(),db=m.getFirestore(app),d={name:o.name,desc:o.desc,url:o.url};if(o.icon)d.icon=o.icon;
     if(o.id)await m.updateDoc(m.doc(db,'apps',o.id),d);else await m.addDoc(m.collection(db,'apps'),{...d,at:m.serverTimestamp()})},
   async remove(id){const m=await FSM();await m.deleteDoc(m.doc(m.getFirestore(app),'apps',id))}
@@ -688,9 +692,10 @@ function card(a){
   if(/^data:image\//.test(a.icon||'')){im=document.createElement('img');im.src=a.icon;im.alt='';im.loading='lazy'}
   else{im=document.createElement('div');im.className='ph';im.innerHTML='<svg class="i"><use href="#gem"/></svg>'}
   const h=document.createElement('h3');h.textContent=a.name||'';t.append(im,h);
+  if(a.pinned){const pb=document.createElement('span');pb.className='pinb';pb.textContent='مثبّت';t.append(pb)}
   const p=document.createElement('p');p.textContent=a.desc||'';
   const o=document.createElement('a');o.className='btn sm';o.target='_blank';o.rel='noopener noreferrer';o.href=okU(a.url)?a.url:'#';o.textContent='فتح التطبيق';
-  const adm=document.createElement('div');adm.className='adm';adm.append(ib('pen','تعديل',()=>openM(a)),ib('trash','حذف',()=>del(a),'del'));
+  const adm=document.createElement('div');adm.className='adm';adm.append(ib('pin',a.pinned?'إلغاء التثبيت':'تثبيت',()=>pin(a),a.pinned?'on':''),ib('pen','تعديل',()=>openM(a)),ib('trash','حذف',()=>del(a),'del'));
   c.append(t,p,o,adm);return c;
 }
 function render(){G.replaceChildren(...items.map(card));MS.textContent=items.length?'':'لسه مفيش تطبيقات منشورة.'}
@@ -721,12 +726,18 @@ SV.addEventListener('click',async()=>{
   if(name.length<2){ER.textContent='اكتب اسم التطبيق';return}
   if(!okU(url)){ER.textContent='اكتب رابط صحيح يبدأ بـ https://';return}
   SV.style.display='none';LD.classList.add('on');
-  BAR.style.transition='none';BAR.style.width='0';void BAR.offsetWidth;BAR.style.transition='width 1.2s linear';BAR.style.width='100%';
-  try{
-    await Promise.all([window.hffApps.save({id:cur&&cur.id,name,desc,url,icon}),new Promise(r=>setTimeout(r,1300))]);
-    closeM();toast(cur?'تم حفظ التعديل':'تم نشر التطبيق');await load();
-  }catch(e){LD.classList.remove('on');SV.style.display='';ER.textContent='تعذّر النشر. تأكد إنك داخل بحساب المطور وإن قواعد Firestore متظبطة.'}
+  BAR.style.transition='none';BAR.style.width='0';void BAR.offsetWidth;BAR.style.transition='width .9s linear';BAR.style.width='100%';
+  const job=window.hffApps.save({id:cur&&cur.id,name,desc,url,icon}).then(()=>({}),e=>({err:e}));
+  const first=await Promise.race([job,new Promise(r=>setTimeout(()=>r({late:1}),1000))]);
+  if(first.err){LD.classList.remove('on');SV.style.display='';ER.textContent='تعذّر النشر. تأكد إنك داخل بحساب المطور وإن قواعد Firestore متظبطة.';return}
+  closeM();toast(cur?'تم حفظ التعديل':'تم نشر التطبيق');
+  if(first.late)job.then(x=>{if(x.err)toast('تعذّر النشر، حاول تاني');load()});else load();
 });
+const ord=(a,b)=>(!!b.pinned-!!a.pinned)||(((b.at&&b.at.seconds)||9e9)-((a.at&&a.at.seconds)||9e9));
+async function pin(a){
+  if(!isDev())return;const v=!a.pinned;a.pinned=v;items.sort(ord);render();toast(v?'تم تثبيت التطبيق':'تم إلغاء التثبيت');
+  try{await window.hffApps.pin(a.id,v)}catch(_){a.pinned=!v;items.sort(ord);render();toast('تعذّر التثبيت')}
+}
 async function del(a){
   if(!isDev()||!confirm('متأكد إنك عايز تحذف "'+a.name+'"؟'))return;
   try{await window.hffApps.remove(a.id);items=items.filter(x=>x.id!==a.id);render();toast('تم حذف التطبيق')}catch(_){toast('تعذّر الحذف')}
