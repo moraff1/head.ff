@@ -121,6 +121,23 @@ footer .own em{font-style:normal;color:var(--blood)}
 .btn.gg{background:#fff;color:#222;box-shadow:none;width:100%;justify-content:center}
 
 /* ===== Auth ===== */
+.auth{display:flex;align-items:center;gap:10px}
+.auth #uname{font-weight:800;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--bone)}
+.btn.sm{padding:8px 16px;font-size:.95rem;border-radius:10px;box-shadow:none}
+.modal{position:fixed;inset:0;z-index:60;display:grid;place-items:center;background:rgba(0,0,0,.72);padding:16px;backdrop-filter:blur(4px)}
+.modal[hidden]{display:none}
+.modal .box{position:relative;width:min(100%,400px);max-height:100%;overflow:auto;box-shadow:0 0 60px rgba(229,25,43,.35)}
+.modal h3{margin:0 0 4px;font-size:1.5rem;font-weight:900}
+.modal .x{position:absolute;inset-inline-start:12px;top:12px;width:34px;height:34px;border-radius:50%;border:1px solid var(--edge);background:#0d0305;color:var(--bone);font-size:1.2rem;cursor:pointer;line-height:1}
+.modal input{width:100%;font:700 1rem 'Cairo',sans-serif;color:var(--bone);background:#0d0305;border:1.5px solid var(--edge);border-radius:10px;padding:12px 14px;margin-bottom:12px}
+.modal input:focus{border-color:var(--blood);outline:0}
+.modal .err{color:#ff6b78;font-weight:700;font-size:.9rem;min-height:1.4em;margin:0 0 8px}
+.modal .lnk{background:none;border:0;color:var(--violet);font:700 .9rem 'Cairo',sans-serif;cursor:pointer;padding:4px 0}
+.modal .or{display:flex;align-items:center;gap:10px;color:var(--mute);margin:14px 0;font-size:.9rem}
+.modal .or::before,.modal .or::after{content:"";flex:1;height:1px;background:var(--edge)}
+.btn.gg{background:#fff;color:#222;box-shadow:none;width:100%;justify-content:center}
+
+/* ===== Auth ===== */
 #auth{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;overflow:auto;background:var(--void);background-image:radial-gradient(900px 500px at 85% -5%,#4a0a14 0%,transparent 60%),radial-gradient(700px 400px at 0% 40%,#2a0618 0%,transparent 60%)}
 #auth.off{display:none}
 .acard{width:min(100%,400px);text-align:center}
@@ -173,6 +190,30 @@ footer .own em{font-style:normal;color:var(--blood)}
 .dok h3{font-size:1.5rem;margin:0 0 6px;color:#6ee7a0}
 .dok p{color:var(--mute);margin:0}
 .dform.off{display:none}
+
+/* ===== Developer / Apps ===== */
+.devonly{display:none}
+.isdev .devonly{display:inline-flex}
+.devbadge{align-items:center;font:800 .8rem 'Cairo',sans-serif;color:#fff;background:linear-gradient(135deg,var(--violet),var(--ember));border-radius:99px;padding:4px 12px}
+#apps h2 .btn{margin-inline-start:auto}
+.apps{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.app{display:flex;flex-direction:column;gap:10px}
+.app .top{display:flex;align-items:center;gap:12px}
+.app .top img,.app .ph{width:58px;height:58px;border-radius:14px;object-fit:cover;border:1.5px solid var(--edge);flex:none;background:#0d0305;display:grid;place-items:center;color:var(--violet)}
+.app h3{margin:0;font-size:1.1rem;word-break:break-word}
+.app p{margin:0;color:var(--mute);font-size:.95rem;flex:1;white-space:pre-line;word-break:break-word}
+.app>a.btn{width:fit-content}
+.app .adm{display:none;gap:8px}
+.isdev .app .adm{display:flex}
+.ib{width:38px;height:38px;border-radius:10px;border:1.5px solid var(--edge);background:#0d0305;color:var(--bone);display:grid;place-items:center;cursor:pointer}
+.ib:hover{border-color:var(--blood)}
+.ib.del:hover{border-color:#ff6b78;color:#ff6b78}
+.modal textarea{width:100%;font:700 1rem 'Cairo',sans-serif;color:var(--bone);background:#0d0305;border:1.5px solid var(--edge);border-radius:10px;padding:12px 14px;margin-bottom:12px;min-height:96px;resize:vertical}
+.modal textarea:focus{border-color:var(--blood);outline:0}
+.ipick{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.ipick img{width:64px;height:64px;border-radius:14px;object-fit:cover;border:1.5px solid var(--edge);background:#0d0305}
+.mload{display:none;flex-direction:column;align-items:center;gap:10px;padding:12px 0}
+.mload.on{display:flex}
 </style>
 </head>
 <body>
@@ -193,11 +234,14 @@ footer .own em{font-style:normal;color:var(--blood)}
 <symbol id="gem" viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20M10 3 8 9l4 12 4-12-2-6"/></symbol>
 <symbol id="cart" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M1 2h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></symbol>
 <symbol id="chat" viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-13.4 7.8L3 21l1.3-4.4A9 9 0 1 1 21 12z"/><path d="M9 9c0 3 3 6 6 6l1.5-1.5-2-1-1 .8c-1-.4-2-1.4-2.4-2.4l.8-1-1-2z"/></symbol>
+<symbol id="pen" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+<symbol id="trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></symbol>
 </svg>
 
 <header><div class="wrap nav">
   <a class="brand" href="#top"><img src="https://cdn.phototourl.com/member/2026-11-11-5ede928d-2c18-41ff-8ac3-ea04d0331404.jpg" alt="HEAD FF"> HEAD FF</a>
-  <nav><a href="#video">شرح الموقع</a><a href="#gen">مولّد الحساسية</a><a href="#store">متجر Mora Store</a><a href="#tips">نصائح</a></nav>
+  <nav><a href="#video">شرح الموقع</a><a href="#gen">مولّد الحساسية</a><a href="#store">متجر Mora Store</a><a href="#apps">التطبيقات</a><a href="#tips">نصائح</a></nav>
+  <span class="devbadge devonly">وضع المطور</span>
   <button class="out" id="aout" type="button" hidden>تسجيل خروج</button>
 </div></header>
 
@@ -266,6 +310,14 @@ footer .own em{font-style:normal;color:var(--blood)}
     </div>
   </section>
 
+  <section id="apps">
+    <h2><svg class="i"><use href="#gem"/></svg> تطبيقات الموقع <button class="btn sm devonly" id="appadd" type="button" aria-label="إضافة تطبيق"><svg class="i"><use href="#pen"/></svg> إضافة تطبيق</button></h2>
+    <p class="sub">تطبيقات مفيدة تقدر تفتحها وتجربها.</p>
+    <p class="note devonly" style="margin:0 0 14px">انت داخل كمطور: اضغط على القلم لإضافة تطبيق، وعلى أي تطبيق تقدر تعدّله أو تحذفه.</p>
+    <div class="apps" id="appsgrid"></div>
+    <p class="note" id="appmsg" style="justify-content:center"></p>
+  </section>
+
     <section id="tips">
     <h2><svg class="i"><use href="#bolt"/></svg> نصائح سريعة</h2>
     <p class="sub">حاجات بسيطة بتفرق في دقة الإيم.</p>
@@ -317,6 +369,21 @@ footer .own em{font-style:normal;color:var(--blood)}
       <h3>تم تسجيلك في السحب</h3>
       <p id="dokmsg">هيتم الإعلان عن الفايز على الموقع. بالتوفيق!</p>
     </div>
+  </div>
+</div>
+
+<div class="modal" id="appmodal" hidden>
+  <div class="card box">
+    <button class="x" id="appx" type="button" aria-label="إغلاق">×</button>
+    <h3 id="apptitle">إضافة تطبيق</h3>
+    <p class="sub" style="margin:0 0 14px">ارفع صورة التطبيق من تليفونك واكتب بياناته.</p>
+    <div class="ipick"><img id="appprev" alt="" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><label class="btn sm" for="appimg"><svg class="i"><use href="#pen"/></svg> اختر صورة</label><input id="appimg" type="file" accept="image/*" style="display:none"></div>
+    <input id="appname" type="text" maxlength="40" placeholder="اسم التطبيق">
+    <textarea id="appdesc" maxlength="300" placeholder="وصف التطبيق"></textarea>
+    <input id="appurl" type="url" dir="ltr" placeholder="رابط فتح التطبيق https://..." inputmode="url">
+    <p class="err" id="apperr" role="alert"></p>
+    <div class="mload" id="appload"><div class="spin"></div><b>جاري النشر</b><div class="lbar"><i id="appbar"></i></div></div>
+    <button class="btn" id="appsave" type="button" style="width:100%;justify-content:center"><svg class="i"><use href="#bolt"/></svg> نشر التطبيق</button>
   </div>
 </div>
 
@@ -451,7 +518,6 @@ buildSelect();run();
   });
 })();
 </script>
-
 <script>
 /* Giveaway */
 (function(){
@@ -519,6 +585,8 @@ import{getAuth,setPersistence,browserLocalPersistence,onAuthStateChanged,signInW
 const app=initializeApp({apiKey:"AIzaSyCqmYEP3b-fY76K7p7o77sMpSGz9nJqpII",authDomain:"head-ff-bc164.firebaseapp.com",projectId:"head-ff-bc164",storageBucket:"head-ff-bc164.firebasestorage.app",messagingSenderId:"723341221191",appId:"1:723341221191:web:bbdac0e26b301872a8c062",measurementId:"G-SK9XJ4N30Y"});
 setTimeout(()=>import("https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js").then(m=>m.getAnalytics(app)).catch(()=>{}),4000);
 const auth=getAuth(app);auth.languageCode='ar';
+/* ايميل المطور (صاحب الموقع): غيّره لايميلك الحقيقي */
+const DEV_EMAILS=['omar.more072@gmail.com'];
 window.hffSave=async r=>{
   const m=await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
   const db=m.getFirestore(app),ref=m.doc(db,'draw',r.phone);
@@ -527,10 +595,18 @@ window.hffSave=async r=>{
   await m.setDoc(ref,{name:r.name,phone:r.phone,shares:7,uid:u?u.uid:null,email:u?u.email:null,at:m.serverTimestamp()});
   return'ok';
 };
+const FSM=()=>import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
+window.hffApps={
+  async list(){const m=await FSM(),db=m.getFirestore(app),s=await m.getDocs(m.collection(db,'apps'));
+    return s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>((b.at&&b.at.seconds)||9e9)-((a.at&&a.at.seconds)||9e9))},
+  async save(o){const m=await FSM(),db=m.getFirestore(app),d={name:o.name,desc:o.desc,url:o.url};if(o.icon)d.icon=o.icon;
+    if(o.id)await m.updateDoc(m.doc(db,'apps',o.id),d);else await m.addDoc(m.collection(db,'apps'),{...d,at:m.serverTimestamp()})},
+  async remove(id){const m=await FSM();await m.deleteDoc(m.doc(m.getFirestore(app),'apps',id))}
+};
 const $=id=>document.getElementById(id);
 const A=$('auth'),F=$('aform'),C=$('achk'),E=$('aerr'),B=$('ago');
 let mode='in';
-const MSG={'auth/invalid-email':'الإيميل غير صحيح','auth/missing-password':'اكتب كلمة المرور','auth/invalid-credential':'الإيميل أو كلمة المرور غير صحيحة','auth/wrong-password':'كلمة المرور غير صحيحة','auth/user-not-found':'مفيش حساب بالإيميل ده','auth/email-already-in-use':'الإيميل ده مسجّل قبل كده، اختار دخول','auth/weak-password':'كلمة المرور ضعيفة، استخدم 6 حروف على الأقل','auth/too-many-requests':'محاولات كتير، جرّب بعد شوية','auth/network-request-failed':'مشكلة في الإنترنت','auth/popup-closed-by-user':'اتقفلت نافذة جوجل','auth/popup-blocked':'المتصفح منع نافذة جوجل، اسمح بالنوافذ المنبثقة','auth/unauthorized-domain':'الدومين ده غير مسموح في إعدادات Firebase','auth/operation-not-allowed':'طريقة الدخول دي غير مفعّلة في Firebase'};
+const MSG={'auth/invalid-email':'الإيميل غير صحيح','auth/missing-password':'اكتب كلمة المرور','auth/invalid-credential':'الإيميل أو كلمة المرور غير صحيحة','auth/wrong-password':'كلمة المرور غير صحيحة','auth/user-not-found':'مفيش حساب بالإيميل ده','auth/email-already-in-use':'الإيميل ده مسجّل قبل كده، اختار دخول','auth/weak-password':'كلمة المرور ضعيفة، استخدم 6 حروف على الأقل','auth/too-many-requests':'محاولات كتير، جرّب بعد شوية','auth/network-request-failed':'مشكلة في الإنترنت','auth/popup-closed-by-user':'اتقفلت نافذة جوجل','auth/popup-blocked':'المتصفح منع نافذة جوجل، اسمح بالنوافذ المنبثقة','auth/unauthorized-domain':'الدومين ده غير مسموح في إعدادات Firebase','auth/operation-not-allowed':'طريقة الدخول دي غير مفعّلة في Firebase','auth/operation-not-supported-in-this-environment':'افتح الموقع من متصفح عادي (كروم أو سفاري)'};
 const err=e=>{E.textContent=MSG[e.code]||'حصل خطأ، حاول تاني'};
 const busy=b=>{B.disabled=b;$('agg').disabled=b};
 $('atab').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
@@ -554,10 +630,12 @@ $('afg').addEventListener('click',async()=>{const em=$('ae').value.trim();
 $('aout').addEventListener('click',()=>signOut(auth));
 onAuthStateChanged(auth,u=>{
   C.style.display='none';
+  document.body.classList.toggle('isdev',!!u&&DEV_EMAILS.includes((u.email||'').toLowerCase()));
   try{u?localStorage.setItem('hff_in','1'):localStorage.removeItem('hff_in')}catch(_){}
   if(u){A.classList.add('off');$('aout').hidden=false;document.body.style.overflow=''}
   else{document.documentElement.classList.remove('rt');A.classList.remove('off');F.hidden=false;$('aout').hidden=true;document.body.style.overflow='hidden';$('ap').value=''}
 });
+window.hffReady=true;
 </script>
 <script>
 document.getElementById('vp').addEventListener('click',function(){
@@ -567,6 +645,73 @@ document.getElementById('vp').addEventListener('click',function(){
   f.referrerPolicy='strict-origin-when-cross-origin';f.allowFullscreen=true;
   document.getElementById('vid').replaceChildren(f);
 });
+</script>
+<script>
+(function(){
+  var a=document.getElementById('auth'),e=document.getElementById('aerr');
+  a.addEventListener('click',function(ev){if(window.hffReady||!ev.target.closest('button'))return;ev.stopPropagation();e.textContent='خدمة الدخول لسه بتتحمل، استنى ثانية وحاول تاني.'},true);
+  setTimeout(function(){if(!window.hffReady)e.textContent='تعذّر تحميل خدمة الدخول. تأكد من الإنترنت وأعد تحميل الصفحة.'},8000);
+})();
+</script>
+<script type="module">
+/* Apps + developer panel */
+const $=id=>document.getElementById(id);
+const G=$('appsgrid'),MS=$('appmsg'),M=$('appmodal'),ER=$('apperr'),SV=$('appsave'),LD=$('appload'),BAR=$('appbar'),PREV=$('appprev');
+const PH=PREV.src;
+let items=[],cur=null,icon='';
+const isDev=()=>document.body.classList.contains('isdev');
+const okU=u=>/^https?:\/\//i.test(u||'');
+function ib(sym,label,fn,cls){const b=document.createElement('button');b.type='button';b.className='ib '+(cls||'');b.setAttribute('aria-label',label);b.innerHTML='<svg class="i"><use href="#'+sym+'"/></svg>';b.addEventListener('click',fn);return b}
+function card(a){
+  const c=document.createElement('div');c.className='card app';
+  const t=document.createElement('div');t.className='top';
+  let im;
+  if(/^data:image\//.test(a.icon||'')){im=document.createElement('img');im.src=a.icon;im.alt='';im.loading='lazy'}
+  else{im=document.createElement('div');im.className='ph';im.innerHTML='<svg class="i"><use href="#gem"/></svg>'}
+  const h=document.createElement('h3');h.textContent=a.name||'';t.append(im,h);
+  const p=document.createElement('p');p.textContent=a.desc||'';
+  const o=document.createElement('a');o.className='btn sm';o.target='_blank';o.rel='noopener noreferrer';o.href=okU(a.url)?a.url:'#';o.textContent='فتح التطبيق';
+  const adm=document.createElement('div');adm.className='adm';adm.append(ib('pen','تعديل',()=>openM(a)),ib('trash','حذف',()=>del(a),'del'));
+  c.append(t,p,o,adm);return c;
+}
+function render(){G.replaceChildren(...items.map(card));MS.textContent=items.length?'':'لسه مفيش تطبيقات منشورة.'}
+async function load(){MS.textContent='جاري تحميل التطبيقات...';try{items=await window.hffApps.list();render()}catch(e){MS.textContent='تعذّر تحميل التطبيقات حاليًا.'}}
+let seen=false;
+const io=new IntersectionObserver(es=>{if(!seen&&es.some(x=>x.isIntersecting)){seen=true;io.disconnect();load()}},{rootMargin:'400px'});
+io.observe($('apps'));
+function openM(a){
+  if(!isDev())return;cur=a||null;icon='';ER.textContent='';
+  $('apptitle').textContent=a?'تعديل التطبيق':'إضافة تطبيق';SV.lastChild.textContent=a?' حفظ التعديل':' نشر التطبيق';
+  $('appname').value=a?a.name:'';$('appdesc').value=a?a.desc||'':'';$('appurl').value=a?a.url||'':'';
+  PREV.src=a&&/^data:image\//.test(a.icon||'')?a.icon:PH;$('appimg').value='';
+  LD.classList.remove('on');SV.style.display='';M.hidden=false;
+}
+const closeM=()=>{M.hidden=true};
+$('appadd').addEventListener('click',()=>openM(null));
+$('appx').addEventListener('click',closeM);
+M.addEventListener('click',e=>{if(e.target===M)closeM()});
+function shrink(f){return new Promise((ok,no)=>{const u=URL.createObjectURL(f),im=new Image();
+  im.onload=()=>{const S=192,c=document.createElement('canvas');c.width=c.height=S;const x=c.getContext('2d'),m=Math.min(im.width,im.height);
+    x.fillStyle='#fff';x.fillRect(0,0,S,S);x.drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,S,S);URL.revokeObjectURL(u);ok(c.toDataURL('image/jpeg',.82))};
+  im.onerror=()=>{URL.revokeObjectURL(u);no()};im.src=u})}
+$('appimg').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;
+  try{icon=await shrink(f);PREV.src=icon;ER.textContent=''}catch(_){ER.textContent='الصورة دي مش مدعومة، اختار صورة تانية'}});
+SV.addEventListener('click',async()=>{
+  if(!isDev())return;ER.textContent='';
+  const name=$('appname').value.trim(),desc=$('appdesc').value.trim(),url=$('appurl').value.trim();
+  if(name.length<2){ER.textContent='اكتب اسم التطبيق';return}
+  if(!okU(url)){ER.textContent='اكتب رابط صحيح يبدأ بـ https://';return}
+  SV.style.display='none';LD.classList.add('on');
+  BAR.style.transition='none';BAR.style.width='0';void BAR.offsetWidth;BAR.style.transition='width 1.2s linear';BAR.style.width='100%';
+  try{
+    await Promise.all([window.hffApps.save({id:cur&&cur.id,name,desc,url,icon}),new Promise(r=>setTimeout(r,1300))]);
+    closeM();toast(cur?'تم حفظ التعديل':'تم نشر التطبيق');await load();
+  }catch(e){LD.classList.remove('on');SV.style.display='';ER.textContent='تعذّر النشر. تأكد إنك داخل بحساب المطور وإن قواعد Firestore متظبطة.'}
+});
+async function del(a){
+  if(!isDev()||!confirm('متأكد إنك عايز تحذف "'+a.name+'"؟'))return;
+  try{await window.hffApps.remove(a.id);items=items.filter(x=>x.id!==a.id);render();toast('تم حذف التطبيق')}catch(_){toast('تعذّر الحذف')}
+}
 </script>
 </body>
   <!-- Default Statcounter code for موقع العاب
