@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>HEAD FF | حساسيات فري فاير</title>
+<!-- كود إعلانات Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1244676963759461"
+     crossorigin="anonymous"></script>
 <script>try{if(localStorage.getItem('hff_in'))document.documentElement.classList.add('rt')}catch(_){}</script>
 <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js">
 <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js">
@@ -605,6 +608,7 @@ const FSM=()=>import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firest
 window.hffApps={
   async list(){const m=await FSM(),db=m.getFirestore(app),s=await m.getDocs(m.collection(db,'apps'));
     return s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(!!b.pinned-!!a.pinned)||(((b.at&&b.at.seconds)||9e9)-((a.at&&a.at.seconds)||9e9)))},
+  watch(ok,bad){return FSM().then(m=>m.onSnapshot(m.collection(m.getFirestore(app),'apps'),s=>ok(s.docs.map(d=>({id:d.id,...d.data()}))),bad))},
   async pin(id,v){const m=await FSM();await m.updateDoc(m.doc(m.getFirestore(app),'apps',id),{pinned:!!v})},
   async save(o){const m=await FSM(),db=m.getFirestore(app),d={name:o.name,desc:o.desc,url:o.url};if(o.icon)d.icon=o.icon;
     if(o.id)await m.updateDoc(m.doc(db,'apps',o.id),d);else await m.addDoc(m.collection(db,'apps'),{...d,at:m.serverTimestamp()})},
@@ -653,6 +657,8 @@ $('aout').addEventListener('click',()=>signOut(auth));
 $('ashow').addEventListener('change',e=>{$('ap').type=e.target.checked?'text':'password'});
 onAuthStateChanged(auth,u=>{
   C.style.display='none';
+  window.hffUser=!!u;
+  setTimeout(()=>window.dispatchEvent(new Event('hffauth')),0);
   document.body.classList.toggle('isdev',!!u&&DEV_EMAILS.includes((u.email||'').toLowerCase()));
   try{u?localStorage.setItem('hff_in','1'):localStorage.removeItem('hff_in')}catch(_){}
   if(u){A.classList.add('off');$('aout').hidden=false;document.body.style.overflow=''}
@@ -699,10 +705,11 @@ function card(a){
   c.append(t,p,o,adm);return c;
 }
 function render(){G.replaceChildren(...items.map(card));MS.textContent=items.length?'':'لسه مفيش تطبيقات منشورة.'}
-async function load(){MS.textContent='جاري تحميل التطبيقات...';try{items=await window.hffApps.list();render()}catch(e){MS.textContent='تعذّر تحميل التطبيقات حاليًا.'}}
-let seen=false;
-const io=new IntersectionObserver(es=>{if(!seen&&es.some(x=>x.isIntersecting)){seen=true;io.disconnect();load()}},{rootMargin:'400px'});
-io.observe($('apps'));
+let unsub=null,started=false;
+const bad=()=>{MS.textContent='تعذّر تحميل التطبيقات حاليًا.'};
+function start(){if(started||!window.hffUser)return;started=true;MS.textContent='جاري تحميل التطبيقات...';
+  window.hffApps.watch(l=>{items=l.sort(ord);render()},bad).then(u=>{unsub=u}).catch(bad)}
+function stop(){started=false;if(unsub){unsub();unsub=null}items=[];render();MS.textContent=''}
 function openM(a){
   if(!isDev())return;cur=a||null;icon='';ER.textContent='';
   $('apptitle').textContent=a?'تعديل التطبيق':'إضافة تطبيق';SV.lastChild.textContent=a?' حفظ التعديل':' نشر التطبيق';
@@ -726,12 +733,12 @@ SV.addEventListener('click',async()=>{
   if(name.length<2){ER.textContent='اكتب اسم التطبيق';return}
   if(!okU(url)){ER.textContent='اكتب رابط صحيح يبدأ بـ https://';return}
   SV.style.display='none';LD.classList.add('on');
-  BAR.style.transition='none';BAR.style.width='0';void BAR.offsetWidth;BAR.style.transition='width .9s linear';BAR.style.width='100%';
+  BAR.style.transition='none';BAR.style.width='0';void BAR.offsetWidth;BAR.style.transition='width .4s linear';BAR.style.width='100%';
   const job=window.hffApps.save({id:cur&&cur.id,name,desc,url,icon}).then(()=>({}),e=>({err:e}));
-  const first=await Promise.race([job,new Promise(r=>setTimeout(()=>r({late:1}),1000))]);
+  const first=await Promise.race([job,new Promise(r=>setTimeout(()=>r({late:1}),400))]);
   if(first.err){LD.classList.remove('on');SV.style.display='';ER.textContent='تعذّر النشر. تأكد إنك داخل بحساب المطور وإن قواعد Firestore متظبطة.';return}
   closeM();toast(cur?'تم حفظ التعديل':'تم نشر التطبيق');
-  if(first.late)job.then(x=>{if(x.err)toast('تعذّر النشر، حاول تاني');load()});else load();
+  if(first.late)job.then(x=>{if(x.err)toast('تعذّر النشر، حاول تاني')});
 });
 const ord=(a,b)=>(!!b.pinned-!!a.pinned)||(((b.at&&b.at.seconds)||9e9)-((a.at&&a.at.seconds)||9e9));
 async function pin(a){
@@ -742,6 +749,8 @@ async function del(a){
   if(!isDev()||!confirm('متأكد إنك عايز تحذف "'+a.name+'"؟'))return;
   try{await window.hffApps.remove(a.id);items=items.filter(x=>x.id!==a.id);render();toast('تم حذف التطبيق')}catch(_){toast('تعذّر الحذف')}
 }
+window.addEventListener('hffauth',()=>{window.hffUser?start():stop()});
+if(window.hffUser)start();
 </script>
 </body>
   <!-- Default Statcounter code for موقع العاب
