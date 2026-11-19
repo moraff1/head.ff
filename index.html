@@ -706,8 +706,8 @@ function card(a){
 }
 function render(){G.replaceChildren(...items.map(card));MS.textContent=items.length?'':'لسه مفيش تطبيقات منشورة.'}
 let unsub=null,started=false;
-const bad=()=>{MS.textContent='تعذّر تحميل التطبيقات حاليًا.'};
-function start(){if(started||!window.hffUser)return;started=true;MS.textContent='جاري تحميل التطبيقات...';
+const bad=e=>{started=false;unsub=null;MS.textContent=(e&&e.code==='permission-denied')?'قواعد Firestore بتمنع قراءة التطبيقات. اسمح بالقراءة في القواعد.':'تعذّر تحميل التطبيقات حاليًا.'};
+function start(){if(started)return;started=true;MS.textContent='جاري تحميل التطبيقات...';
   window.hffApps.watch(l=>{items=l.sort(ord);render()},bad).then(u=>{unsub=u}).catch(bad)}
 function stop(){started=false;if(unsub){unsub();unsub=null}items=[];render();MS.textContent=''}
 function openM(a){
@@ -736,7 +736,7 @@ SV.addEventListener('click',async()=>{
   BAR.style.transition='none';BAR.style.width='0';void BAR.offsetWidth;BAR.style.transition='width .4s linear';BAR.style.width='100%';
   const job=window.hffApps.save({id:cur&&cur.id,name,desc,url,icon}).then(()=>({}),e=>({err:e}));
   const first=await Promise.race([job,new Promise(r=>setTimeout(()=>r({late:1}),400))]);
-  if(first.err){LD.classList.remove('on');SV.style.display='';ER.textContent='تعذّر النشر. تأكد إنك داخل بحساب المطور وإن قواعد Firestore متظبطة.';return}
+  if(first.err){LD.classList.remove('on');SV.style.display='';ER.textContent='تعذّر النشر ('+((first.err&&first.err.code)||'خطأ')+'). تأكد إنك داخل بحساب المطور وإن قواعد Firestore متظبطة.';return}
   closeM();toast(cur?'تم حفظ التعديل':'تم نشر التطبيق');
   if(first.late)job.then(x=>{if(x.err)toast('تعذّر النشر، حاول تاني')});
 });
@@ -749,8 +749,8 @@ async function del(a){
   if(!isDev()||!confirm('متأكد إنك عايز تحذف "'+a.name+'"؟'))return;
   try{await window.hffApps.remove(a.id);items=items.filter(x=>x.id!==a.id);render();toast('تم حذف التطبيق')}catch(_){toast('تعذّر الحذف')}
 }
-window.addEventListener('hffauth',()=>{window.hffUser?start():stop()});
-if(window.hffUser)start();
+window.addEventListener('hffauth',start);
+start();
 </script>
 </body>
   <!-- Default Statcounter code for موقع العاب
